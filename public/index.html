@@ -7,7 +7,14 @@
 </head>
 
 <body>
-  <h3>Setup</h3>
+
+<h1>Backstory</h1>
+
+<p>
+  
+</p>
+
+<h3>Setup</h3>
 <ol>
 <li>Install the
 <a href="https://chrome.google.com/webstore/detail/clipboard-permission-mana/ipbhneeanpgkaleihlknhjiaamobkceh?hl=en">Clipboard Permission Manager</a>
@@ -32,5 +39,18 @@ And here's how we can access the contents of the system clipboard:
 <textarea id="vt"></textarea>
 
 <textarea name="hide" style="display:none;"></textarea>
+
+
+<h1>Scratch notes</h1>
+
+<pre>
+I guess you have to first try to execute the execCommand thing before the 
+Chrome extension will prompt you for permission to read the clipboard.
+So we should just make it do that on page load so it will prompt you 
+right away, which will simplify these instructions a lot!
+(Though maybe you'll still have to notice the red icon and click it, so
+not a very obvious prompt.)
+</pre>
+
 </body>
 </html>
