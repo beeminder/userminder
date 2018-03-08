@@ -7,17 +7,26 @@
 </head>
 
 <body>
-<h3>
-  Prereq: Install the
-  <a href="https://chrome.google.com/webstore/detail/clipboard-permission-mana/ipbhneeanpgkaleihlknhjiaamobkceh?hl=en">Clipboard Permission Manager</a>
-  Chrome extension and grant permission to userminder.glitch.me
-  </h3>
-  
+  <h3>Setup</h3>
+<ol>
+<li>Install the
+<a href="https://chrome.google.com/webstore/detail/clipboard-permission-mana/ipbhneeanpgkaleihlknhjiaamobkceh?hl=en">Clipboard Permission Manager</a>
+Chrome extension</li>
+<li>Click the red icon to the right of the address bar and check the box to allow "direct clipboard access" for userminder.glitch.me</li>
+</ol>  
+
+Here's an example of writing to the clipboard, which we don't actually care about:
 <div data-controller="clipboard">
 <input data-target="clipboard.link" type="text" value="test2216" readonly>
 <button data-action="clipboard#copy">Copy to Clipboard</button>
 </div>
 <hr>
+
+And here's how we can access the contents of the system clipboard:
+<ol>
+<li>Copy something interesting to the clipboard</li>  
+<li></li>
+</ol>
 <textarea id="vt"></textarea>
 
 <textarea name="hide" style="display:none;"></textarea>
