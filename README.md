@@ -1,27 +1,22 @@
-Welcome to the Glitch BETA
-=========================
+# Stimulus Starter
 
-Click `Show` in the header to see your app live. Updates to your code will instantly deploy and update live.
+A preconfigured blank slate for exploring [Stimulus](https://github.com/stimulusjs/stimulus). Jump to [The Stimulus Handbook](https://stimulusjs.org/handbook/introduction) for an introduction.
 
-**Glitch** is the friendly community where you'll build the app of your dreams. Glitch lets you instantly create, remix, edit, and host an app, bot or site, and you can invite collaborators or helpers to simultaneously edit code with you.
+---
 
-Find out more [about Glitch](https://glitch.com/about).
+We recommend [remixing `stimulus-starter` on Glitch](https://glitch.com/edit/#!/import/github/stimulusjs/stimulus-starter) so you can work entirely in your browser without installing anything:
 
+[![Remix on Glitch](https://cdn.glitch.com/2703baf2-b643-4da7-ab91-7ee2a2d00b5b%2Fremix-button.svg)](https://glitch.com/edit/#!/import/github/stimulusjs/stimulus-starter)
 
-Your Project
-------------
+Or, if you'd prefer to work from the comfort of your own text editor, you'll need to clone and set up `stimulus-starter`:
 
-On the front-end,
-- edit `public/client.js`, `public/style.css` and `views/index.html`
-- drag in `assets`, like images or music, to add them to your project
+```
+$ git clone https://github.com/stimulusjs/stimulus-starter.git
+$ cd stimulus-starter
+$ yarn install
+$ yarn start
+```
 
-On the back-end,
-- your app starts at `server.js`
-- add frameworks and packages in `package.json`
-- safely store app secrets in `.env` (nobody can see this but you and people you invite)
+---
 
-
-Made by [Fog Creek](https://fogcreek.com/)
--------------------
-
-\ ゜o゜)ノ
+© 2018 Basecamp, LLC.
