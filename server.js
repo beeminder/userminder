@@ -1,16 +1,59 @@
-const path = require("path")
-const express = require("express")
-const webpack = require("webpack")
-const webpackMiddleware = require("webpack-dev-middleware")
-const webpackConfig = require("./webpack.config")
+var express = require('express');
+var app = express();
+//var https = require('https');
+var http = require('http');
+var bodyParser = require('body-parser');
+//var request = require('request');
 
-const app = express()
-const publicPath = path.join(__dirname, "public")
-const port = process.env.PORT || 9000
 
-app.use(express.static(publicPath))
-app.use(webpackMiddleware(webpack(webpackConfig)))
+app.use(express.static('public'));
+//app.set('trust proxy', 1);
+app.use(bodyParser.json());
 
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`)
-})
+
+app.get("/", function (request, response) {
+  response.sendFile(__dirname + '/views/index.html');
+});
+
+
+app.get("/dossier", function (req, resp) {
+  console.log("GET /dossier")
+  console.log(req.params)
+  getDossier(req.params.email, req.params.token,
+    (userp) => {
+      resp.send(JSON.stringify(userp));  
+    }, 
+    (error) => {
+      
+    }
+  );
+});
+
+var listener = app.listen(process.env.PORT, function () {
+  console.log('Listening on port ' + listener.address().port);
+});
+
+function getDossier(email, token, success, error) {
+   var options = {
+    host: 'www.beeminder.com',
+    port: 80,
+    path: '/api/private/raplet.json?users[]='+email+"&auth_token="+token,
+    method: 'GET',
+  }
+  var req = http.request(options, function (res) {
+    var data = ''
+    res.on('data', (chunk) => {
+      data = data + chunk
+    }).on('end', () => {
+      var userd = JSON.parse(data)
+      console.log(userd)
+      success(userd)
+    })
+  })
+  req.on('error', (e) => {
+    console.log('problem with request: ' + e.message)
+    error(e.message)
+  })
+  req.write('')
+  req.end()
+}
