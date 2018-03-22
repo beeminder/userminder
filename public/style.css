@@ -1,8 +1,61 @@
-/* styles */
-/* called by your view template */
+body {
+  font-family: helvetica, arial, sans-serif;
+  margin: 25px;
+  background-color: #fef2c0;
+}
 
-/* You might want to try something fancier: */
-/* less: http://lesscss.org/ */
+input {
+  display: block;
+  margin-bottom: 10px;
+  padding: 5px;
+  width: 100%;
+  border: 1px solid lightgrey;
+  border-radius: 3px;
+  font-size: 16px;
+}
+
+form {
+  margin-bottom: 25px;
+  padding: 15px;
+  display: inline-block;
+  width: 100%;
+  max-width: 340px;
+  border-radius: 3px;
+}
+
+footer {
+  margin-top: 50px;
+  padding-top: 25px;
+  border-top: 1px solid lightgrey;
+}
+
+footer > a {
+  color: #BBBBBB;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th, td, tr {
+  padding-right: 40px;
+  padding-left: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ffea51;
+}
+
+.topics tr { line-height: 14px; }
+
+tr.container {height:0px;}
+
+tr:hover { background-color: #ffea51 }
+
+textarea { 
+  font-family: monospace; 
+  font-size: 14px;
+}
+
+/* original css:
 
 * {
   box-sizing: border-box;
@@ -41,26 +94,6 @@ p {
   max-width: 600px;
 }
 
-form {
-  margin-bottom: 25px;
-  padding: 15px;
-  background-color: cyan;
-  display: inline-block;
-  width: 100%;
-  max-width: 340px;
-  border-radius: 3px;
-}
-
-input {
-  display: block;
-  margin-bottom: 10px;
-  padding: 5px;
-  width: 100%;
-  border: 1px solid lightgrey;
-  border-radius: 3px;
-  font-size: 16px;
-}
-
 button {
   font-size: 16px;
   border-radius: 3px;
@@ -95,3 +128,5 @@ footer > a {
 .nicejob {
   text-decoration: line-through;
 }
+
+*/
