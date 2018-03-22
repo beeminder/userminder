@@ -1,3 +1,17 @@
+#userinfo div {
+  padding: 1em; 
+}
+.vip {
+  background-color: palegreen; 
+}
+.prio2 {
+  background-color: rgba(143,188,143, 0.5); 
+}
+.prio3 {
+  background-color: rgba(211,211,211, 0.75);
+}
+
+
 body {
   font-family: helvetica, arial, sans-serif;
   margin: 25px;
@@ -21,6 +35,23 @@ form {
   width: 100%;
   max-width: 340px;
   border-radius: 3px;
+}
+
+button {
+  font-size: 16px;
+  border-radius: 3px;
+  background-color: lightgrey;
+  border: 1px solid grey;
+  box-shadow: 2px 2px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: yellow;
+}
+
+button:active {
+  box-shadow: none;
 }
 
 footer {
@@ -61,30 +92,9 @@ textarea {
   box-sizing: border-box;
 }
 
-body {
-  font-family: helvetica, arial, sans-serif;
-  margin: 25px;
-}
-
-h1 {
-  font-weight: bold;
-  color: pink;
-}
-.vip {
-  background-color: palegreen; 
-}
-.prio2 {
-  background-color: rgba(143,188,143, 0.5); 
-}
-.prio3 {
-  background-color: rgba(211,211,211, 0.75);
-}
 a {
   color: black;
   text-decoration: underline;
-}
-#userinfo div {
-  padding: 1em; 
 }
 .bold {
   font-weight: bold;
@@ -94,22 +104,6 @@ p {
   max-width: 600px;
 }
 
-button {
-  font-size: 16px;
-  border-radius: 3px;
-  background-color: lightgrey;
-  border: 1px solid grey;
-  box-shadow: 2px 2px teal;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: yellow;
-}
-
-button:active {
-  box-shadow: none;
-}
 
 li {
   margin-bottom: 5px;
@@ -119,14 +113,6 @@ footer {
   margin-top: 50px;
   padding-top: 25px;
   border-top: 1px solid lightgrey;
-}
-
-footer > a {
-  color: #BBBBBB;
-}
-
-.nicejob {
-  text-decoration: line-through;
 }
 
 */

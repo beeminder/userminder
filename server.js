@@ -36,11 +36,11 @@ function getDossier(email, token, success, error) {
   console.log("getDossier helper")
    var options = {
     host: 'www.beeminder.com',
-    port: 80,
+    port: 443,
     path: '/api/private/raplet.json?users[]='+email+"&auth_token="+token,
     method: 'GET',
   }
-  var req = https.get(options, function (res) {
+  var req = https.request(options, function (res) {
     var data = ''
     res.on('data', (chunk) => {
       data = data + chunk

@@ -10,6 +10,8 @@ $(function() {
   } else {
     console.log("could not paste. boo!")
   }
+  // Simple in-memory store
+  const users = [];
   
   $("form.raplet").submit(function(e){
     e.preventDefault()
@@ -20,7 +22,9 @@ $(function() {
       },
       function(data) {
         console.log(data)
+        users.push(data[0])
         $("#userinfo").append(formatDossier(data[0]))
+        console.log(users);
       })
   })
 })
