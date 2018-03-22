@@ -16,7 +16,7 @@ app.use(bodyParser.json())
 
 app.get("/dossier", function(req, resp) {
   console.log("GET /dossier")
-  console.log(req.params)
+  console.log(req)
   getDossier(req.params.email, req.params.token,
     (userp) => {
       resp.send(JSON.stringify(userp))
