@@ -5,9 +5,9 @@
 // add other scripts at the bottom of index.html
 $(function() {
   if (document.execCommand("paste")) {
-    console.log("pasted! yay!");
+    console.log("pasted! yay!")
   } else {
-    console.log("could not paste. boo!");
+    console.log("could not paste. boo!")
   }
   
   $("form#email").submit(function(e){
