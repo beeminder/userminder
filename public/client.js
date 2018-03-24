@@ -28,12 +28,7 @@ function extract_email(s) {
 setInterval(cbmonitor, 1000)
 
 $(function() {
-  if (document.execCommand("paste")) {
-    console.log("pasted! yay!")
-  } else {
-    console.log("could not paste. boo!")
-  }
-  // Simple in-memory store
+  // Simple in-memory store -- use this to keep track of what email addresses we've already looked up and don't re-add them to the page
   const users = [];
   
   $("form.raplet").submit(function(e){
