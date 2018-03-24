@@ -1,8 +1,9 @@
 // ---------------------------------- 80chars --------------------------------->
 
+var clipboard = ''
+
 // Put the contents of the clipboard in the "clipboard" span
 function cbmonitor() {
-  var clipboard = ''
   var textarea = document.getElementById("magic_textarea")
   textarea.value = ''
   textarea.focus()
@@ -13,6 +14,7 @@ function cbmonitor() {
                           // that's supposed to let us monitor the clipboard
                           // isn't working.
   }
+  textarea.blur()
   document.getElementById("clipboard").textContent = clipboard
 }
 
@@ -31,7 +33,7 @@ $(function() {
     e.preventDefault()
     $.getJSON(
       "/dossier", {
-        email: $("#email").val(),
+        email: clipboard, //$("#email").val(),
         token: $("#token").val(),
       },
       function(data) {
