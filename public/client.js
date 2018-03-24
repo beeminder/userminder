@@ -9,7 +9,7 @@ function cbmonitor() {
   if (document.execCommand("paste")) {
     var email = extract_email(textarea.value)
     if (email) {
-      document.getElementById("email").value = email 
+      document.getElementById("email").value = email
     }
   } else {
     var contents = 'ERROR23' // if we see this then probably the Chrome extension
@@ -32,6 +32,10 @@ setInterval(cbmonitor, 1000)
 $(function() {
   // Simple in-memory store -- use this to keep track of what email addresses we've already looked up and don't re-add them to the page
   const users = [];
+  
+  $("#email").change(function(e) {
+    $("form.raplet").submit();
+  });
   
   $("form.raplet").submit(function(e){
     e.preventDefault()
