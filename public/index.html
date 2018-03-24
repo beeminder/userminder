@@ -30,6 +30,11 @@
 <section class="dossier">
 <div id="userinfo"></div>
 </section>
+  
+<section>
+CLIPBOARD:
+<span id="clipboard"></span>
+</section>
 
 <h1>Backstory</h1>
 
@@ -64,7 +69,7 @@ Our goal is to have this app monitor the clipboard (copy/paste) buffer of the op
 That way, when we're doing Beeminder support we can keep this app running in another tab or on another screen and by doing control-c on any address, we'll immediately see in that other window all the things Beeminder can tell us about that user.
 </p>
 
-<h3>Setup</h3>
+<h1>Setup</h1>
 <ol>
 <li>Install the
 <a href="https://chrome.google.com/webstore/detail/clipboard-permission-mana/ipbhneeanpgkaleihlknhjiaamobkceh?hl=en">Clipboard Permission Manager</a>
@@ -74,28 +79,9 @@ Chrome extension</li>
 
 <hr>
 
-And here's how we can access the contents of the system clipboard:
-<ol>
-<li>Copy something interesting to the clipboard</li>  
-<li>Click the mouse in the text area below</li>
-<li>In the browser console, execute this:<br><code>document.execCommand("paste")</code></li>
-<li>NEXT TASK: make the contents of the system clipboard appear in that box automatically in real time</li>
-</ol>
-<textarea id="vt"></textarea>
+<textarea id="visible_textarea"></textarea>
 
-<textarea name="hide" style="display:none;"></textarea>
-
-
-<h1>Scratch notes</h1>
-
-<pre>
-I guess you have to first try to execute the execCommand thing before the 
-Chrome extension will prompt you for permission to read the clipboard.
-So we should just make it do that on page load so it will prompt you 
-right away, which will simplify these instructions a lot!
-(Though maybe you'll still have to notice the red icon and click it, so
-not a very obvious prompt.)
-</pre>
+<textarea id="secret_textarea" name="hide" style="display:none;"></textarea>
 
 <script src="https://code.jquery.com/jquery-2.2.1.min.js"
         integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
