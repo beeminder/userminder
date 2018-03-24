@@ -1,22 +1,24 @@
 // ---------------------------------- 80chars --------------------------------->
 
-var clipboard = ''
-
 // Put the contents of the clipboard in the "clipboard" span
 function cbmonitor() {
-  var textarea = document.getElementById("magic_textarea")
+  var textarea = document.getElementById("clipboard")
   textarea.value = ''
-  var current_focus = document.activeElement
+  //var current_focus = document.activeElement
   textarea.focus()
   if (document.execCommand("paste")) {
-    clipboard = textarea.value
+    var email = extract_email(textarea.value)
+    if (email) {
+      document.getElementById("email").value = email 
+    }
   } else {
-    clipboard = 'ERROR23' // if we see this then probably the Chrome extension
+    var contents = 'ERROR23' // if we see this then probably the Chrome extension
                           // that's supposed to let us monitor the clipboard
                           // isn't working.
   }
-  current_focus.focus()
-  document.getElementById("clipboard").textContent = clipboard
+  //current_focus.focus()
+  //document.getElementById("clipboard").textContent = clipboard
+//bsoule@gmail.com
 }
 
 // Take a string and return the first email address you find in it
@@ -35,7 +37,7 @@ $(function() {
     e.preventDefault()
     $.getJSON(
       "/dossier", {
-        email: extract_email(clipboard), //$("#email").val(),
+        email: extract_email($("#email").val()),
         token: $("#token").val(),
       },
       function(data) {
