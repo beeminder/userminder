@@ -21,7 +21,8 @@ function cbmonitor() {
 
 // Take a string and return the first email address you find in it
 function extract_email(s) {
-  // ^.*?([\w\-\.\_]+\@[\w\-\.\_]+)
+  var matches = s.match(/^.*?([\w\-\.\_\+]+\@[\w\-\.\_]+)/)
+  return matches === null ? '' : matches[1]
 }
 
 setInterval(cbmonitor, 1000)
@@ -39,7 +40,7 @@ $(function() {
     e.preventDefault()
     $.getJSON(
       "/dossier", {
-        email: clipboard, //$("#email").val(),
+        email: extract_email(clipboard), //$("#email").val(),
         token: $("#token").val(),
       },
       function(data) {
@@ -62,6 +63,7 @@ function formatDossier(doss) {
     div.find("h2").text(doss.username)
     div.find("a").attr("href", "https://www.beeminder.com/"+doss.username)
     div.append("<span>"+doss.subscription+"</span>")
+    div.append("<>")
   }
   return div
 }
