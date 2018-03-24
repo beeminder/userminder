@@ -1,9 +1,3 @@
-// ---------------------------------- 80chars --------------------------------->
-// client-side js
-// run by the browser each time your view template is loaded
-
-// by default, you've got jQuery,
-// add other scripts at the bottom of index.html
 $(function() {
   if (document.execCommand("paste")) {
     console.log("pasted! yay!")
@@ -26,6 +20,14 @@ $(function() {
         $("#userinfo").append(formatDossier(data[0]))
         console.log(users);
       })
+  
+      // TODO: can we put the cursor in the text area before doing the following?
+      if (document.execCommand("paste")) {
+        console.log("pasted! yay!")
+      } else {
+        console.log("could not paste. boo!")
+      }
+
   })
 })
 
