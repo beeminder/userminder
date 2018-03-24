@@ -63,7 +63,8 @@ function formatDossier(doss) {
     div.find("h2").text(doss.username)
     div.find("a").attr("href", "https://www.beeminder.com/"+doss.username)
     div.append("<span>"+doss.subscription+"</span>")
-    div.append("<>")
+    div.append("<span>$"+doss.pledged+"</span>")
+    div.append("<span>since "+doss.since+"</span>")
   }
   return div
 }
