@@ -6,6 +6,7 @@ var clipboard = ''
 function cbmonitor() {
   var textarea = document.getElementById("magic_textarea")
   textarea.value = ''
+  var current_focus = document.activeElement
   textarea.focus()
   if (document.execCommand("paste")) {
     clipboard = textarea.value
@@ -14,8 +15,13 @@ function cbmonitor() {
                           // that's supposed to let us monitor the clipboard
                           // isn't working.
   }
-  textarea.blur()
+  current_focus.focus()
   document.getElementById("clipboard").textContent = clipboard
+}
+
+// Take a string and return the first email address you find in it
+function extract_email(s) {
+  // ^.*?([\w\-\.\_]+\@[\w\-\.\_]+)
 }
 
 setInterval(cbmonitor, 1000)
