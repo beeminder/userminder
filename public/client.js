@@ -9,16 +9,14 @@ function cbmonitor() {
   if (document.execCommand("paste")) {
     var email = extract_email(textarea.value)
     if (email) {
-      document.getElementById("email").value = email
+      document.getElementById("email_box").value = email
+      document.getElementById("email_span").text(email)
     }
   } else {
     var contents = 'ERROR23' // if we see this then probably the Chrome extension
                           // that's supposed to let us monitor the clipboard
                           // isn't working.
   }
-  //current_focus.focus()
-  //document.getElementById("clipboard").textContent = clipboard
-//bsoule@gmail.com
 }
 
 // Take a string and return the first email address you find in it
@@ -29,15 +27,14 @@ function extract_email(s) {
   return matches === null ? '' : matches[0]
 }
 
-setInterval(cbmonitor, 1000)
-
 $(function() {
-  // Simple in-memory store -- use this to keep track of what email addresses we've already looked up and don't re-add them to the page
-  const users = [];
+  // Simple in-memory store -- use this to keep track of what email addresses
+  // we've already looked up and don't re-add them to the page
+  const users = []
   
   $("#email").change(function(e) {
-    $("form.raplet").submit();
-  });
+    $("form.raplet").submit()
+  })
   
   $("form.raplet").submit(function(e){
     e.preventDefault()
@@ -50,8 +47,9 @@ $(function() {
         console.log(data)
         users.push(data[0])
         $("#userinfo").append(formatDossier(data[0]))
-        console.log(users);
+        console.log(users)
       })
+    setInterval(cbmonitor, 1000)
   })
 })
 

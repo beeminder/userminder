@@ -24,15 +24,19 @@
   </label>
   <input id="token" type="text">
   <label>Email address</label>
-  <input id="email" type="text" placeholder="e.g., user@email.com">
+  <input id="email_box" type="text" placeholder="e.g., user@email.com">
   <button type="submit">Submit</button>
 </form>
 <section class="dossier">
 <div id="userinfo"></div>
 </section>
-  
+
 <h1>Current Contents of Clipboard</h1>
 <pre><input id="clipboard"></pre>
+
+<h1>Email Address Extracted: <span id="email_span">nobody@nowhere.com</span></h1>
+
+<hr>
 
 <h1>Backstory</h1>
 
@@ -67,7 +71,7 @@ Our goal is to have this app monitor the clipboard (copy/paste) buffer of the op
 That way, when we're doing Beeminder support we can keep this app running in another tab or on another screen and by doing control-c on any address, we'll immediately see in that other window all the things Beeminder can tell us about that user.
 </p>
 
-<h1>Setup</h1>
+<h1>Initial Setup</h1>
 <ol>
 <li>Install the
 <a href="https://chrome.google.com/webstore/detail/clipboard-permission-mana/ipbhneeanpgkaleihlknhjiaamobkceh?hl=en">Clipboard Permission Manager</a>
