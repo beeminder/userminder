@@ -23,7 +23,8 @@ function cbmonitor() {
 
 // Take a string and return the first email address you find in it
 function extract_email(s) {
-  var erx = /[\w\-\.\_\+]+\@[\w\-\.\_]+[a-zA-Z]/
+  var erx = 
+    /[\w\-\.\_\+]*\w[\w\-\.\_\+]*\@[\w\-\.\_]*\.[\w\-\.\_]*[a-zA-Z]/
   var matches = s.match(erx)
   return matches === null ? '' : matches[0]
 }
