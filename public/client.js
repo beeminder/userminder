@@ -10,7 +10,7 @@ function cbmonitor() {
     var email = extract_email(textarea.value)
     if (email) {
       document.getElementById("email_box").value = email
-      document.getElementById("email_span").text(email)
+      document.getElementById("email_span").innerHTML = email
     }
   } else {
     var contents = 'ERROR23' // if we see this then probably the Chrome extension
@@ -21,6 +21,7 @@ function cbmonitor() {
 
 // Take a string and return the first email address you find in it
 function extract_email(s) {
+  if (typeof(x) !== "string") 
   var erx = // eg a@b.c or a+b@c-d.e or even +-@x.co or _@.a or +@-b
     /[\w\-\.\_\+]+\@[\w\-\.\_]+[a-zA-Z]/
   var matches = s.match(erx)
