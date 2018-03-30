@@ -1,6 +1,11 @@
 // ---------------------------------- 80chars --------------------------------->
 
-var email = '' // global variable with currently extracted email address
+// Simple in-memory store: use this to keep track of what email addresses we've
+// already looked up and don't re-add them to the page.
+var users = []
+
+// global variable with currently extracted email address
+var email = '' 
 
 // Put the contents of the clipboard in the "clipboard" span
 function cbmonitor() {
@@ -19,6 +24,18 @@ function cbmonitor() {
                             // that's supposed to let us monitor the clipboard
                             // isn't working.
   }
+  
+  $.getJSON(
+    "/dossier", {
+      email: extract_email(document.getElementById("email_span").innerHTML),
+      token: $("#token").val(),
+    },
+    function(data) {
+      console.log("ADDING DOSSIER: ", data)
+      users.push(data[0])
+      $("#userinfo").append(formatDossier(data[0]))
+      console.log(users)
+    })
 }
 
 // Take a string and return the first email address you find in it
@@ -33,28 +50,11 @@ function extract_email(s) {
   return matches === null ? '' : matches[0]
 }
 
-$(function() {
-  // Simple in-memory store -- use this to keep track of what email addresses
-  // we've already looked up and don't re-add them to the page
-  const users = []
-  
-  $("#email").change(function(e) {
-    $("form.raplet").submit()
-  })
+$(function() {  
+  $("#email").change(function(e) { $("form.raplet").submit() })
   
   $("form.raplet").submit(function(e){
-    e.preventDefault()
-    $.getJSON(
-      "/dossier", {
-        email: extract_email(document.getElementById("email_span").innerHTML),
-        token: $("#token").val(),
-      },
-      function(data) {
-        console.log(data)
-        users.push(data[0])
-        $("#userinfo").append(formatDossier(data[0]))
-        console.log(users)
-      })
+    e.preventDefault() // do we need this?
     setInterval(cbmonitor, 1000)
   })
 })
