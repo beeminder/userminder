@@ -25,17 +25,14 @@ function cbmonitor() {
   }
   
   if (seemail !== '' && !seen[seemail]) {
+    seen[seemail] = true
     $.getJSON(
       "/dossier", {
         email: seemail,
         token: $("#token").val(), // document.getElementById('token').value
       },
       function(data) {
-        console.log("ADDING DOSSIER FOR [" + data[0]['email'] + "] = " + 
-                    "[" + seemail + "]")
-        //users.push(data[0]) #SCHDEL
         $("#userinfo").append(formatDossier(data[0]))
-        seen[seemail] = true
       })
   }
 }
@@ -73,14 +70,15 @@ function formatDossier(doss) {
     div.append(
       `<h2>${seemail} &rarr; ` + 
       `<a href="https://www.beeminder.com/${doss.username}"` + 
-      `   title="${doss.email}">${doss.username}</a></h2>`)
-
-    //div.append("<h2><a></a></h2>")
-    //div.find("h2").text(doss.username)
-    //div.find("a").attr("href", "https://www.beeminder.com/"+doss.username)
-    div.append("<span>"+doss.subscription+"</span>")
-    div.append(" <span>$"+doss.pledged+"</span>")
-    div.append(" <span>since "+doss.since+"</span>")
+      `   target="_blank"` +
+      `   title="${doss.email}">${doss.username}</a></h2>` +
+      `<span>${doss.subscription}</span> ` +
+      `<span>$${doss.pledged}</span> ` +
+      `<span>since ${doss.since}</span>`
+    )
+    div.append()
+    div.append()
+    div.append()
   }
   return div
 }

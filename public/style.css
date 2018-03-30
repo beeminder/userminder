@@ -15,7 +15,7 @@
 body {
   font-family: helvetica, arial, sans-serif;
   margin: 25px;
-  background-color: #fef2c0;
+  /* background-color: #fef2c0; */ /* light yellow background */
 }
 
 input {
