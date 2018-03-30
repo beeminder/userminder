@@ -2,7 +2,7 @@
 
 // Simple in-memory store: use this to keep track of what email addresses we've
 // already looked up and don't re-add them to the page.
-var users = []
+var seen = {}
 
 // Global variable with currently extracted email address
 var email = '' 
