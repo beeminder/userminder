@@ -29,7 +29,7 @@ function cbmonitor() {
     $.getJSON(
       "/dossier", {
         email: seemail,
-        token: $("#token").val(), // document.getElementById('token').value
+        token: document.getElementById('token').value
       },
       function(data) {
         $("#userinfo").append(formatDossier(data[0]))
