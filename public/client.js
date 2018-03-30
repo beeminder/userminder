@@ -65,13 +65,16 @@ function formatDossier(doss) {
   if (doss.username === undefined) {
     div.append("<h2>"+doss.email_given+" &rarr; NOT A BEEMINDER USER</h2>")
   } else {
+    var hover = JSON.stringify(doss)
+    hover = hover.replace(/\"/g, "'")
+    console.log(hover)
     var bkg = doss.subscription ? "vip" : doss.is_payer ? "prio2" : "prio3"
     div.addClass(bkg)
     div.append(
       `<h2>${seemail} &rarr; ` + 
       `<a href="https://www.beeminder.com/${doss.username}"` + 
       `   target="_blank"` +
-      `   title="${doss.email}">${doss.username}</a></h2>` +
+      `   title="${hover}">${doss.username}</a></h2>` +
       `<span>${doss.subscription}</span> ` +
       `<span>$${doss.pledged}</span> ` +
       `<span>since ${doss.since}</span>`
