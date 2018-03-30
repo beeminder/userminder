@@ -64,15 +64,20 @@ $(function() {
 }) 
 
 function formatDossier(doss) {
-  var div = $("<div></div>")
+  var div = $("<div></div>") // why not find this by id?
   if (doss.username === undefined) {
     div.append("<h2>"+doss.email_given+" &rarr; NOT A BEEMINDER USER</h2>")
   } else {
     var bkg = doss.subscription ? "vip" : doss.is_payer ? "prio2" : "prio3"
     div.addClass(bkg)
-    div.append("<a><h2></h2></a>")
-    div.find("h2").text(seemail + " -> " + doss.username)
-    div.find("a").attr("href", "https://www.beeminder.com/"+doss.username)
+    div.append(
+      `<h2>${seemail} &rarr; ` + 
+      `<a href="https://www.beeminder.com/${doss.username}"` + 
+      `   title="${doss.email}">${doss.username}</a></h2>`)
+
+    //div.append("<h2><a></a></h2>")
+    //div.find("h2").text(doss.username)
+    //div.find("a").attr("href", "https://www.beeminder.com/"+doss.username)
     div.append("<span>"+doss.subscription+"</span>")
     div.append(" <span>$"+doss.pledged+"</span>")
     div.append(" <span>since "+doss.since+"</span>")
