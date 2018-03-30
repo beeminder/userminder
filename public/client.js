@@ -24,17 +24,18 @@ function cbmonitor() {
                 + "us monitor the clipboard isn't working?")
   }
   
-  if (!seen[seemail]) {
+  if (seemail !== '' && !seen[seemail]) {
     $.getJSON(
       "/dossier", {
         email: seemail,
         token: $("#token").val(), // document.getElementById('token').value
       },
       function(data) {
-        console.log("ADDING DOSSIER FOR ", data[0]["email"])
+        console.log("ADDING DOSSIER FOR [" + data[0]['email'] + "] = " + 
+                    "[" + seemail + "]")
         //users.push(data[0]) #SCHDEL
-        seen[data[0]["email"] = true
         $("#userinfo").append(formatDossier(data[0]))
+        seen[seemail] = true
       })
   }
 }
@@ -65,7 +66,7 @@ $(function() {
 function formatDossier(doss) {
   var div = $("<div></div>")
   if (doss.username === undefined) {
-    div.append("<h2>"+doss.email_given+"</h2>")
+    div.append("<h2>"+doss.email_given+" &rarr; NOT A BEEMINDER USER</h2>")
   } else {
     var bkg = doss.subscription ? "vip" : doss.is_payer ? "prio2" : "prio3"
     div.addClass(bkg)
@@ -73,8 +74,8 @@ function formatDossier(doss) {
     div.find("h2").text(seemail + " -> " + doss.username)
     div.find("a").attr("href", "https://www.beeminder.com/"+doss.username)
     div.append("<span>"+doss.subscription+"</span>")
-    div.append("<span>$"+doss.pledged+"</span>")
-    div.append("<span>since "+doss.since+"</span>")
+    div.append(" <span>$"+doss.pledged+"</span>")
+    div.append(" <span>since "+doss.since+"</span>")
   }
   return div
 }
