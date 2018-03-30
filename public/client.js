@@ -4,7 +4,7 @@
 // already looked up and don't re-add them to the page.
 var users = []
 
-// global variable with currently extracted email address
+// Global variable with currently extracted email address
 var email = '' 
 
 // Put the contents of the clipboard in the "clipboard" span
@@ -27,7 +27,7 @@ function cbmonitor() {
   
   $.getJSON(
     "/dossier", {
-      email: extract_email(document.getElementById("email_span").innerHTML),
+      email: email,
       token: $("#token").val(),
     },
     function(data) {
@@ -51,7 +51,7 @@ function extract_email(s) {
 }
 
 $(function() {  
-  $("#email").change(function(e) { $("form.raplet").submit() })
+  //$("#email").change(function(e) { $("form.raplet").submit() }) #SCHDEL
   
   $("form.raplet").submit(function(e){
     e.preventDefault() // do we need this?
