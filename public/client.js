@@ -9,6 +9,7 @@ var seen = {}
 
 // Put the contents of the clipboard in the magic "clipboard" span
 function cbmonitor() {
+  console.log("CBMONITOR!")
   var magic_textarea = document.getElementById("clipboard")
   magic_textarea.value = ''
   //var current_focus = document.activeElement // to remember what has focus now
@@ -17,7 +18,8 @@ function cbmonitor() {
     seemail = extract_email(magic_textarea.value)
     if (seemail) {
       //document.getElementById("email_box").value = email
-      document.getElementById("email_span").innerHTML = seemail
+      document.getElementById("email_span").innerHTML = 
+        seemail // + (seen[seemail] ? ' (already fetched!)' : '')
     }
   } else {
     console.log("ERROR2: Probably the Chrome extension that's supposed to let "
