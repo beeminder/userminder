@@ -9,7 +9,7 @@ function cbmonitor() {
   if (document.execCommand("paste")) {
     var email = extract_email(textarea.value)
     if (email) {
-      document.getElementById("email_box").value = email
+      //document.getElementById("email_box").value = email
       document.getElementById("email_span").innerHTML = email
     }
   } else {

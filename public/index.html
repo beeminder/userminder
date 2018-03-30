@@ -13,6 +13,10 @@
 
 <body>
 
+<section class="dossier">
+<div id="userinfo">(dossiers will appear up here)</div>
+</section>
+
 <h1>Beeminder Support Support</h1>
 
 If you're not a Beeminder admin, there's nothing to see here!
@@ -39,25 +43,22 @@ or something like that.
 -->
 
 <form class="raplet">
-  <label>
-    <a href="https://www.beeminder.com/api/v1/auth_token.json">
-      Your auth token</a>
-  </label>
-  <input id="token" type="text">
+<label>
+Submit 
+<a href="https://www.beeminder.com/api/v1/auth_token.json">your auth token</a>:
+</label>
+<input id="token" type="text" size="25">
 <!--
-  <label>Email address</label>
-  <input id="email_box" type="text" placeholder="e.g., user@email.com">
+<label>Email address</label>
+<input id="email_box" type="text" placeholder="e.g., user@email.com">
 -->
-  <button type="submit">Submit</button>
+<button type="submit">Submit</button>
 </form>
-<section class="dossier">
-<div id="userinfo"></div>
-</section>
 
 <h2>Now Just Copy/Paste Chunks Of Text Containing Email Addresses</h2>
 
 <h3>Current Contents of Clipboard</h3>
-<pre><input id="clipboard"></pre>
+<pre><input id="clipboard" width="100%"></pre>
 
 <h1>Email Address Extracted: <span id="email_span">nobody@nowhere.com</span></h1>
 
