@@ -21,7 +21,7 @@
 
 If you're not a Beeminder admin, there's nothing to see here!
 
-<h2>Initial One-Time Setup</h2>
+<h2>1. Initial One-Time Setup</h2>
 <ol>
 <li>Install the
 <a href="https://chrome.google.com/webstore/detail/clipboard-permission-mana/ipbhneeanpgkaleihlknhjiaamobkceh?hl=en">Clipboard Permission Manager</a>
@@ -29,7 +29,7 @@ Chrome extension</li>
 <li>Click the red icon to the right of the address bar and check the box to allow "direct clipboard access" for userminder.glitch.me</li>
 </ol>  
 
-<h2>Authentication As A Beeminder Admin (each time this page is loaded)</h2>
+<h2>2. Authentication As A Beeminder Admin (each time this page is loaded)</h2>
 
 <!--
 Maybe the auth_token.json page needs to include a header like
@@ -55,13 +55,16 @@ Submit
 <button type="submit">Submit</button>
 </form>
 
-<h2>Now Just Copy/Paste Chunks Of Text Containing Email Addresses</h2>
+<h2>3. Now Just Copy/Paste Chunks Of Text Containing Email Addresses</h2>
 
 <h3>Current Contents of Clipboard</h3>
 <pre><input id="clipboard" size="100%"></pre>
 
-<h1>Email Address Extracted: 
-  <span id="email_span">nobody@nowhere.com</span></h1>
+<h1>
+<pre>
+&mdash;&rarr;&nbsp;<span id="email_span">(no email address found yet)</span>
+</pre>
+</h1>
 
 <hr>
 

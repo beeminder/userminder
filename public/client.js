@@ -1,28 +1,30 @@
 // ---------------------------------- 80chars --------------------------------->
 
+var email = '' // global variable with currently extracted email address
+
 // Put the contents of the clipboard in the "clipboard" span
 function cbmonitor() {
   var textarea = document.getElementById("clipboard")
   textarea.value = ''
-  //var current_focus = document.activeElement
+  //var current_focus = document.activeElement // to remember what has focus now
   textarea.focus()
   if (document.execCommand("paste")) {
-    var email = extract_email(textarea.value)
+    email = extract_email(textarea.value)
     if (email) {
       //document.getElementById("email_box").value = email
       document.getElementById("email_span").innerHTML = email
     }
   } else {
-    var contents = 'ERROR23' // if we see this then probably the Chrome extension
-                          // that's supposed to let us monitor the clipboard
-                          // isn't working.
+    var contents = 'ERROR2' // if we see this then probably the Chrome extension
+                            // that's supposed to let us monitor the clipboard
+                            // isn't working.
   }
 }
 
 // Take a string and return the first email address you find in it
 function extract_email(s) {
-  if (typeof(x) !== "string") {
-    console.log("ERROR9: extract_email(" + s + ")")
+  if (typeof(s) !== "string") {
+    console.log("ERROR3: extract_email(" + s + ")")
     return ''
   }
   var erx = // eg a@b.c or a+b@c-d.e or even +-@x.co or _@.a or +@-b
@@ -44,7 +46,7 @@ $(function() {
     e.preventDefault()
     $.getJSON(
       "/dossier", {
-        email: extract_email($("#email_span")),
+        email: extract_email(document.getElementById("email_span").innerHTML),
         token: $("#token").val(),
       },
       function(data) {
@@ -73,3 +75,5 @@ function formatDossier(doss) {
   }
   return div
 }
+
+// ---------------------------------- 80chars --------------------------------->
