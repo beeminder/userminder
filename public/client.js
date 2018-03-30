@@ -61,7 +61,7 @@ $(function() {
 }) 
 
 function formatDossier(doss) {
-  var div = $("<div></div>") // why not find this by id?
+  var div = $("<div></div>") // would it be safer/clearer to find this by id?
   if (doss.username === undefined) {
     div.append("<h2>"+doss.email_given+" &rarr; NOT A BEEMINDER USER</h2>")
   } else {
@@ -76,9 +76,6 @@ function formatDossier(doss) {
       `<span>$${doss.pledged}</span> ` +
       `<span>since ${doss.since}</span>`
     )
-    div.append()
-    div.append()
-    div.append()
   }
   return div
 }
