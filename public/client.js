@@ -24,23 +24,24 @@ function cbmonitor() {
                 + "us monitor the clipboard isn't working?")
   }
   
-  $.getJSON(
-    "/dossier", {
-      email: seemail,
-      token: $("#token").val(), // document.getElementById('token').value
-    },
-    function(data) {
-      console.log("ADDING DOSSIER: ", data)
-      //users.push(data[0]) #SCHDEL
-      seen[data[0]] = true
-      $("#userinfo").append(formatDossier(data[0]))
-      console.log(seen)
-    })
+  if (!seen[seemail]) {
+    $.getJSON(
+      "/dossier", {
+        email: seemail,
+        token: $("#token").val(), // document.getElementById('token').value
+      },
+      function(data) {
+        console.log("ADDING DOSSIER FOR ", data[0]["email"])
+        //users.push(data[0]) #SCHDEL
+        seen[data[0]["email"] = true
+        $("#userinfo").append(formatDossier(data[0]))
+      })
+  }
 }
 
 // Take a string and return the first email address you find in it
 function extract_email(s) {
-  if (typeof(s) !== "string") {
+  if (typeof(s) !== "string") { // pretty sure this check is superfluous
     console.log("ERROR3: extract_email(" + s + ")")
     return ''
   }
@@ -50,15 +51,16 @@ function extract_email(s) {
   return matches === null ? '' : matches[0]
 }
 
-// This is what runs when the page loads.
+// This is what runs when the page loads
 $(function() {  
   //$("#email").change(function(e) { $("form.raplet").submit() }) #SCHDEL
-  
-  $("form.raplet").submit(function(e) {
+
+  // scrap the submit button and just do an onChange() on the token field?
+  $("form.raplet").submit(function(e) { // start monitoring when got auth token
     e.preventDefault() // do we need this?
     setInterval(cbmonitor, 1000)
   })
-})
+}) 
 
 function formatDossier(doss) {
   var div = $("<div></div>")
@@ -68,7 +70,7 @@ function formatDossier(doss) {
     var bkg = doss.subscription ? "vip" : doss.is_payer ? "prio2" : "prio3"
     div.addClass(bkg)
     div.append("<a><h2></h2></a>")
-    div.find("h2").text(doss.username)
+    div.find("h2").text(seemail + " -> " + doss.username)
     div.find("a").attr("href", "https://www.beeminder.com/"+doss.username)
     div.append("<span>"+doss.subscription+"</span>")
     div.append("<span>$"+doss.pledged+"</span>")
