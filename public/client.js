@@ -39,8 +39,8 @@ function cbmonitor() {
 
 // Take a string and return the first email address you find in it
 function extract_email(s) {
-  if (typeof(s) !== "string") { // pretty sure this check is superfluous
-    console.log("ERROR3: extract_email(" + s + ")")
+  if (typeof(s) !== "string") { // pretty sure this check is superfluous now
+    console.log(`ERROR3: extract_email("${s}")`)
     return ''
   }
   var erx = // eg a@b.c or a+b@c-d.e or even +-@x.co or _@.a or +@-b
