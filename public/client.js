@@ -1,40 +1,40 @@
 // ---------------------------------- 80chars --------------------------------->
+// Global variable w/ currently extracted email address (email address we see)
+var seemail = '' 
 
 // Simple in-memory store: use this to keep track of what email addresses we've
 // already looked up and don't re-add them to the page.
 var seen = {}
 
-// Global variable with currently extracted email address
-var email = '' 
 
-// Put the contents of the clipboard in the "clipboard" span
+// Put the contents of the clipboard in the magic "clipboard" span
 function cbmonitor() {
-  var textarea = document.getElementById("clipboard")
-  textarea.value = ''
+  var magic_textarea = document.getElementById("clipboard")
+  magic_textarea.value = ''
   //var current_focus = document.activeElement // to remember what has focus now
-  textarea.focus()
+  magic_textarea.focus()
   if (document.execCommand("paste")) {
-    email = extract_email(textarea.value)
-    if (email) {
+    seemail = extract_email(magic_textarea.value)
+    if (seemail) {
       //document.getElementById("email_box").value = email
-      document.getElementById("email_span").innerHTML = email
+      document.getElementById("email_span").innerHTML = seemail
     }
   } else {
-    var contents = 'ERROR2' // if we see this then probably the Chrome extension
-                            // that's supposed to let us monitor the clipboard
-                            // isn't working.
+    console.log("ERROR2: Probably the Chrome extension that's supposed to let "
+                + "us monitor the clipboard isn't working?")
   }
   
   $.getJSON(
     "/dossier", {
-      email: email,
-      token: $("#token").val(),
+      email: seemail,
+      token: $("#token").val(), // document.getElementById('token').value
     },
     function(data) {
       console.log("ADDING DOSSIER: ", data)
-      users.push(data[0])
+      //users.push(data[0]) #SCHDEL
+      seen[data[0]] = true
       $("#userinfo").append(formatDossier(data[0]))
-      console.log(users)
+      console.log(seen)
     })
 }
 
@@ -50,10 +50,11 @@ function extract_email(s) {
   return matches === null ? '' : matches[0]
 }
 
+// This is what runs when the page loads.
 $(function() {  
   //$("#email").change(function(e) { $("form.raplet").submit() }) #SCHDEL
   
-  $("form.raplet").submit(function(e){
+  $("form.raplet").submit(function(e) {
     e.preventDefault() // do we need this?
     setInterval(cbmonitor, 1000)
   })
