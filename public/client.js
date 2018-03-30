@@ -22,7 +22,8 @@ function cbmonitor() {
 // Take a string and return the first email address you find in it
 function extract_email(s) {
   if (typeof(x) !== "string") {
-    console.log("ERROR: extract_email(" + s + ")")
+    console.log("ERROR9: extract_email(" + s + ")")
+    return ''
   }
   var erx = // eg a@b.c or a+b@c-d.e or even +-@x.co or _@.a or +@-b
     /[\w\-\.\_\+]+\@[\w\-\.\_]+[a-zA-Z]/
@@ -43,7 +44,7 @@ $(function() {
     e.preventDefault()
     $.getJSON(
       "/dossier", {
-        email: extract_email($("#email_box").val()),
+        email: extract_email($("#email_span")),
         token: $("#token").val(),
       },
       function(data) {
