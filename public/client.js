@@ -56,6 +56,7 @@ $(function() {
   //$("#email").change(function(e) { $("form.raplet").submit() }) #SCHDEL
 
   // scrap the submit button and just do an onChange() on the token field?
+  // although we don't want to do more setInterval()s without stopping old ones
   $("form.raplet").submit(function(e) { // start monitoring when got auth token
     e.preventDefault() // do we need this?
     setInterval(cbmonitor, 1000)

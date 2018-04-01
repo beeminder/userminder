@@ -1,13 +1,13 @@
 #userinfo div {
   padding: 1em; 
 }
-.vip {
+.vip { /* user has a premium plan */
   background-color: palegreen; 
 }
-.prio2 {
+.prio2 { /* user has payment info on file */
   background-color: rgba(143,188,143, 0.5); 
 }
-.prio3 {
+.prio3 { /* no payment info */
   background-color: rgba(211,211,211, 0.75);
 }
 
