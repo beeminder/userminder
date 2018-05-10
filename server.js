@@ -40,12 +40,13 @@ function getDossier(email, token, success, error) {
     path: '/api/private/raplet.json?users[]='+email+"&auth_token="+token,
     method: 'GET',
   }
-  var req = https.request(options, function (res) {
+  var req = https.request(options, function(resp) {
     var data = ''
-    res.on('data', (chunk) => {
+    resp.on('data', (chunk) => {
       data = data + chunk
     }).on('end', () => {
       var userd = JSON.parse(data)
+      console.log("DEBUG", data)
       console.log("DEBUG", userd)
       success(userd)
     })
