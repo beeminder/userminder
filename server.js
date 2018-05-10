@@ -46,7 +46,7 @@ function getDossier(email, token, success, error) {
       data = data + chunk
     }).on('end', () => {
       var userd = JSON.parse(data)
-      console.log(userd)
+      console.log("DEBUG", userd)
       success(userd)
     })
   })
