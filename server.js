@@ -33,7 +33,6 @@ var listener = app.listen(process.env.PORT, function() {
 })
 
 function getDossier(email, token, success, error) {
-  console.log("getDossier helper")
    var options = {
     host: 'www.beeminder.com',
     port: 443,
@@ -43,11 +42,11 @@ function getDossier(email, token, success, error) {
   var req = https.request(options, function(resp) {
     var data = ''
     resp.on('data', (chunk) => {
+      console.log("DEBUGraw", chunk)
+      console.log("DEBUGstr", JSON.stringify(chunk))
       data = data + chunk
     }).on('end', () => {
       var userd = JSON.parse(data)
-      console.log("DEBUG", data)
-      console.log("DEBUG", userd)
       success(userd)
     })
   })
