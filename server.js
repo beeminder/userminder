@@ -19,12 +19,8 @@ app.get("/dossier", function(req, resp) {
   console.log("GET /dossier")
   console.log(req.query)
   getDossier(req.query.email, req.query.token,
-    (userp) => {
-      resp.send(JSON.stringify(userp))
-    }, 
-    (error) => {
-      console.log("error in get dossier", error)
-    }
+    (userp) => { resp.send(JSON.stringify(userp)) }, 
+    (error) => { console.log("error in get dossier", error) }
   )
 })
 
@@ -33,10 +29,12 @@ var listener = app.listen(process.env.PORT, function() {
 })
 
 function getDossier(email, token, success, error) {
+  console.log("DEBUGeml", email)
    var options = {
     host: 'www.beeminder.com',
     port: 443,
-    path: '/api/private/raplet.json?users[]='+email+"&auth_token="+token,
+    path: '/api/private/raplet.json?users[]='+encodeURI(email)
+                                  +"&auth_token="+token,
     method: 'GET',
   }
   var req = https.request(options, function(resp) {
@@ -44,9 +42,10 @@ function getDossier(email, token, success, error) {
     resp.on('data', (chunk) => {
       console.log("DEBUGraw", chunk)
       console.log("DEBUGstr", JSON.stringify(chunk))
-      data = data + chunk
+      data += chunk
     }).on('end', () => {
       var userd = JSON.parse(data)
+      console.log("DEBUGdat", data)
       success(userd)
     })
   })
