@@ -9,7 +9,6 @@ var seen = {}
 
 // Put the contents of the clipboard in the magic "clipboard" span
 function cbmonitor() {
-  console.log("CBMONITOR!")
   var magic_textarea = document.getElementById("clipboard")
   magic_textarea.value = ''
   //var current_focus = document.activeElement // to remember what has focus now
@@ -66,7 +65,6 @@ $(function() {
 function formatDossier(doss) {
   var div = $("<div></div>") // would it be safer/clearer to find this by id?
   if (doss.username === undefined) {
-    console.log("DEBUG", doss.email_given)
     div.append("<h2>"+doss.email_given+" &rarr; NOT A BEEMINDER USER</h2>")
   } else {
     var hover = JSON.stringify(doss) // show the full JSON on hover
