@@ -19,19 +19,21 @@
 
 <h1>Beeminder Support Support</h1>
 
-If you're not a Beeminder admin, there's nothing to see here!
-
+None of this should work unless you're a Beeminder admin.
+Hover over links for more details.
+  
 <h2>1. Initial One-Time Setup</h2>
 <ol>
 <li>Install the
-<a href="https://chrome.google.com/webstore/detail/clipboard-permission-mana/ipbhneeanpgkaleihlknhjiaamobkceh?hl=en">Clipboard Permission Manager</a>
+<a href="https://chrome.google.com/webstore/detail/clipboard-permission-mana/ipbhneeanpgkaleihlknhjiaamobkceh?hl=en" title="This is just a Chrome extension we found by searching that seems to do what we need">Clipboard Permission Manager</a>
 Chrome extension</li>
 <li>Click the red icon to the right of the address bar and check the box to allow "direct clipboard access" for userminder.glitch.me</li>
 </ol>  
 
-<h2>2. Authentication As A Beeminder Admin (each time this page is loaded)</h2>
+<h2>2. Authenticate As A Beeminder Admin (each time this page is loaded)</h2>
 
 <!--
+Trying to put your auth token in an iframe doesn't seem to work...
 Maybe the auth_token.json page needs to include a header like
   X-Frame-Options: ALLOW-FROM https://userminder.glitch.me/
 though if that were the issue I'd expect an error in the console like
@@ -45,7 +47,7 @@ or something like that.
 <form class="raplet">
 <label>
 Submit 
-<a href="https://www.beeminder.com/api/v1/auth_token.json">your auth token</a>:
+<a href="https://www.beeminder.com/api/v1/auth_token.json" title="Double click the token (just the token, no quotes) and copy/paste it in the field below">your auth token</a>:
 </label>
 <input id="token" type="text" size="25">
 <!--
@@ -56,6 +58,9 @@ Submit
 </form>
 
 <h2>3. Now Just Copy/Paste Chunks Of Text Containing Email Addresses</h2>
+
+Pro tip: 
+Triple-click to highlight the whole line containing the email address you want rather than fussing with selecting just the email address.
 
 <label>Current Contents of Clipboard:</label>
 <pre><input id="clipboard" size="100%"></pre>

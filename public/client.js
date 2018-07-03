@@ -6,7 +6,6 @@ var seemail = ''
 // already looked up and don't re-add them to the page.
 var seen = {}
 
-
 // Put the contents of the clipboard in the magic "clipboard" span
 function cbmonitor() {
   var magic_textarea = document.getElementById("clipboard")
@@ -52,8 +51,6 @@ function extract_email(s) {
 
 // This is what runs when the page loads
 $(function() {  
-  //$("#email").change(function(e) { $("form.raplet").submit() }) #SCHDEL
-
   // scrap the submit button and just do an onChange() on the token field?
   // although we don't want to do more setInterval()s without stopping old ones
   $("form.raplet").submit(function(e) { // start monitoring when got auth token
