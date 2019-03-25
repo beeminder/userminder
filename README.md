@@ -1,3 +1,5 @@
+See the backstory at the bottom of the website, in index.html.
+
 <pre>
 2018-07-02: Fuss with the instructions and stuff
 2018      : Gradually make it usable
