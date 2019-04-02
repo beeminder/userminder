@@ -1,5 +1,5 @@
 // ---------------------------------- 80chars --------------------------------->
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, clipboard} = require('electron')
 const express = require('express')
 const https = require('https')
 const bodyParser = require('body-parser')
@@ -30,6 +30,7 @@ function createWindow () {
 }
 
 app.on('ready', () => {
+  setInterval(checkClipboard, 1000)
   var expressApp = express()
   expressApp.use(express.static('public'))
   expressApp.set('trust proxy', 1)
@@ -57,6 +58,9 @@ app.on('activate', function () {
 })
 
 // Rest of app -------------------------------
+function checkClipboard(){
+  console.log(clipboard.readText())
+}
 
 function createExpressListeners(expressApp){
 
