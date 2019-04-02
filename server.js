@@ -14,7 +14,9 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({})
+  mainWindow = new BrowserWindow({show: false})
+  mainWindow.maximize();
+  mainWindow.show();
 
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/public/index.html`)
