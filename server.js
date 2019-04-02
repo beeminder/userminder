@@ -71,7 +71,7 @@ function createExpressListeners(expressApp){
   //})
 
 
-  expressApp.get("/dossier", function(req, resp) {
+  expressApp.get(`/dossier`, function(req, resp) {
     //console.log("GET /dossier")
     //console.log(req.query)
     getDossier(req.query.email, req.query.token,
@@ -81,7 +81,9 @@ function createExpressListeners(expressApp){
   })
 
   var listener = expressApp.listen(process.env.PORT, function() {
-    console.log('The Userminder app is running on port '+listener.address().port)
+    const port = listener.address().port
+    console.log(`The Userminder app is running on port ${port}`)
+    global['port'] = port
   })
 
 }

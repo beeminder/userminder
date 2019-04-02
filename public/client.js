@@ -1,3 +1,5 @@
+const {remote} = require('electron')
+const port = remote.getGlobal('port')
 // ---------------------------------- 80chars --------------------------------->
 // Global variable w/ currently extracted email address (email address we see)
 var seemail = '' 
@@ -27,7 +29,7 @@ function cbmonitor() {
   if (seemail !== '' && !seen[seemail]) {
     seen[seemail] = true
     $.getJSON(
-      "/dossier", {
+      `http://localhost:${port}/dossier`, {
         email: seemail,
         token: document.getElementById('token').value
       },
