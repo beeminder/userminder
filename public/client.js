@@ -20,18 +20,6 @@ function cbmonitor() {
       seemail // + (seen[seemail] ? ' (already fetched!)' : '')
   } 
   
-  /*if (document.execCommand("paste")) {
-    seemail = extract_email(magic_textarea.value)
-    if (seemail) {
-      //document.getElementById("email_box").value = email
-      document.getElementById("email_span").textContent = 
-        seemail // + (seen[seemail] ? ' (already fetched!)' : '')
-    }
-  } else {
-    console.log("ERROR2: Probably the Chrome extension that's supposed to let "
-                + "us monitor the clipboard isn't working?")
-  }*/
-  
   if (seemail !== '' && !seen[seemail]) {
     seen[seemail] = true
     $.getJSON(
