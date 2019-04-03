@@ -9,9 +9,23 @@ let clipboard
 
 if(mode==="desktop"){
   const electron = require('electron')
+  const shell = electron.shell
   clipboard = electron.clipboard
   const port = electron.remote.getGlobal('port')
   serverURL = `http://localhost:${port}`
+
+  $(() => {
+    console.log("Client page is ready")
+    let external = $(".external")
+    external.data("link", external.prop("href"))
+    external.prop("href", "#");
+    external.click(function(event){
+      let link = $(event.target).data("link")
+      console.log(`Open external: ${link}`)
+      shell.openExternal(link)
+    })
+    
+  })
 } else{
   serverURL = ''  
 }
