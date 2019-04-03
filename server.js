@@ -31,7 +31,7 @@ function createWindow () {
   mainWindow.show();
 
   // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/public/index.html`)
+  mainWindow.loadURL(`file://${__dirname}/public/index.html?mode=desktop`)
 
   //mainWindow.webContents.openDevTools()
 

@@ -1,5 +1,20 @@
-const {remote, clipboard} = require('electron')
-const port = remote.getGlobal('port')
+// Determine mode
+const urlParams = new URLSearchParams(window.location.search);
+const mode = urlParams.get('mode');
+
+// Initialise
+let serverURL
+let clipboard
+
+
+if(mode==="desktop"){
+  const electron = require('electron')
+  clipboard = electron.clipboard
+  const port = electron.remote.getGlobal('port')
+  serverURL = `http://localhost:${port}`
+} else{
+  serverURL = ''  
+}
 // ---------------------------------- 80chars --------------------------------->
 // Global variable w/ currently extracted email address (email address we see)
 var seemail = '' 
@@ -8,29 +23,36 @@ var seemail = ''
 // already looked up and don't re-add them to the page.
 var seen = {}
 
-// Put the contents of the clipboard in the magic "clipboard" span
-function cbmonitor() {
-  var magic_textarea = document.getElementById("clipboard")
-  const clipboardContents = clipboard.readText()
-  magic_textarea.value = clipboardContents
-  seemail = extract_email(clipboardContents)
+function processInput(input){
+  seemail = extract_email(input)
   if (seemail) {
+    console.log(`Found email ${seemail}`)
     //document.getElementById("email_box").value = email
     document.getElementById("email_span").textContent = 
       seemail // + (seen[seemail] ? ' (already fetched!)' : '')
   } 
   
   if (seemail !== '' && !seen[seemail]) {
+    console.log("Email is new")
     seen[seemail] = true
     $.getJSON(
-      `http://localhost:${port}/dossier`, {
+      `${serverURL}/dossier`, {
         email: seemail,
         token: document.getElementById('token').value
       },
       function(data) {
+        console.log(`Received data ${data}`)
         $("#userinfo").append(formatDossier(data[0]))
       })
   }
+}
+
+// Put the contents of the clipboard in the magic "clipboard" span
+function cbmonitor() {
+  var magic_textarea = document.getElementById("clipboard")
+  const clipboardContents = clipboard.readText()
+  magic_textarea.value = clipboardContents
+  processInput(clipboardContents)
 }
 
 // Take a string and return the first email address you find in it
@@ -51,7 +73,14 @@ $(function() {
   // although we don't want to do more setInterval()s without stopping old ones
   $("form.raplet").submit(function(e) { // start monitoring when got auth token
     e.preventDefault() // do we need this?
-    setInterval(cbmonitor, 1000)
+    if(mode === "desktop"){
+       setInterval(cbmonitor, 1000)
+    }else{
+      $("#clipboard").on('input', function(event) {
+        console.log("Input changed")
+        processInput($(event.target).val())
+      })
+    }
   })
 }) 
 
