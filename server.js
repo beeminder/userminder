@@ -1,4 +1,4 @@
-//Detect Mode
+//Detect Mode - currently only web and desktop mode, so can use some shortcuts
 let webMode = false
 for (let i = 0; i < process.argv.length; i++) {
   const argVal = process.argv[i] 

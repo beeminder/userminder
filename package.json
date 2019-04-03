@@ -4,8 +4,8 @@
   "description": "Beeminder admin tool for workerbees",
   "main": "server.js",
   "scripts": {
-    "start": "electron server.js",
-    "startWeb": "node server.js -web"
+    "startDesktop": "electron server.js -desktop",
+    "start": "node server.js -web"
   },
   "dependencies": {
     "express": "^4.16.4",
