@@ -1,16 +1,27 @@
+let webMode = false
+for (let i = 0; i < process.argv.length; i++) {
+  const argVal = process.argv[i] 
+  if(i>=2 && argVal === "-web"){
+    console.log("Running in web mode")
+    webMode = true
+  }
+}
+
 // ---------------------------------- 80chars --------------------------------->
-const {app, BrowserWindow, clipboard} = require('electron')
 const express = require('express')
 const https = require('https')
 const bodyParser = require('body-parser')
 //var request = require('request')
 
+let app
+let BrowserWindow
+let clipboard
+let mainWindow
 
 // Boilerplate for an electron app
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
 
 function createWindow () {
   // Create the browser window.
@@ -31,32 +42,39 @@ function createWindow () {
   })
 }
 
-app.on('ready', () => {
-  var expressApp = express()
-  expressApp.use(express.static('public'))
-  expressApp.set('trust proxy', 1)
-  expressApp.use(bodyParser.json())
-  createExpressListeners(expressApp)
-  console.log("Created express listeners")
-  createWindow()
-  console.log("Created window")
-})
+if(!webMode){
+  const electron = require('electron')
+  app = electron.app
+  BrowserWindow = electron.BrowserWindow
+  clipboard = electron.clipboard 
 
-app.on('window-all-closed', function () {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
-
-app.on('activate', function () {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
+  app.on('ready', () => {
+    var expressApp = express()
+    expressApp.use(express.static('public'))
+    expressApp.set('trust proxy', 1)
+    expressApp.use(bodyParser.json())
+    createExpressListeners(expressApp)
+    console.log("Created express listeners")
     createWindow()
-  }
-})
+    console.log("Created window")
+  })
+
+  app.on('window-all-closed', function () {
+    // On OS X it is common for applications and their menu bar
+    // to stay active until the user quits explicitly with Cmd + Q
+    if (process.platform !== 'darwin') {
+      app.quit()
+    }
+  })
+
+  app.on('activate', function () {
+    // On OS X it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (mainWindow === null) {
+      createWindow()
+    }
+  })
+}
 
 // Rest of app -------------------------------
 
