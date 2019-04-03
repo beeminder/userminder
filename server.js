@@ -1,3 +1,4 @@
+//Detect Mode
 let webMode = false
 for (let i = 0; i < process.argv.length; i++) {
   const argVal = process.argv[i] 
@@ -42,19 +43,42 @@ function createWindow () {
   })
 }
 
-if(!webMode){
+function setupExpress(expressApp){
+  var expressApp = express()
+  expressApp.use(express.static('public'))
+  expressApp.set('trust proxy', 1)
+  expressApp.use(bodyParser.json())
+
+  //expressApp.get("/", function (request, response) {
+  //  response.sendFile(__dirname + '/views/index.html')
+  //})
+
+  expressApp.get(`/dossier`, function(req, resp) {
+    //console.log("GET /dossier")
+    //console.log(req.query)
+    getDossier(req.query.email, req.query.token,
+      (userp) => { resp.send(JSON.stringify(userp)) }, 
+      (error) => { console.log("error in GET /dossier:", error) }
+    )
+  })
+
+  var listener = expressApp.listen(process.env.PORT, function() {
+    const port = listener.address().port
+    console.log(`The Userminder app is running on port ${port}`)
+    global['port'] = port
+  })
+
+  console.log("Finished setting up express")
+}
+
+function setupElectron(){
   const electron = require('electron')
   app = electron.app
   BrowserWindow = electron.BrowserWindow
   clipboard = electron.clipboard 
 
   app.on('ready', () => {
-    var expressApp = express()
-    expressApp.use(express.static('public'))
-    expressApp.set('trust proxy', 1)
-    expressApp.use(bodyParser.json())
-    createExpressListeners(expressApp)
-    console.log("Created express listeners")
+    setupExpress()
     createWindow()
     console.log("Created window")
   })
@@ -74,32 +98,6 @@ if(!webMode){
       createWindow()
     }
   })
-}
-
-// Rest of app -------------------------------
-
-function createExpressListeners(expressApp){
-
-  //expressApp.get("/", function (request, response) {
-  //  response.sendFile(__dirname + '/views/index.html')
-  //})
-
-
-  expressApp.get(`/dossier`, function(req, resp) {
-    //console.log("GET /dossier")
-    //console.log(req.query)
-    getDossier(req.query.email, req.query.token,
-      (userp) => { resp.send(JSON.stringify(userp)) }, 
-      (error) => { console.log("error in GET /dossier:", error) }
-    )
-  })
-
-  var listener = expressApp.listen(process.env.PORT, function() {
-    const port = listener.address().port
-    console.log(`The Userminder app is running on port ${port}`)
-    global['port'] = port
-  })
-
 }
 
 function getDossier(email, token, success, error) {
@@ -125,3 +123,10 @@ function getDossier(email, token, success, error) {
   req.write('')
   req.end()
 }
+
+if(webMode){
+  setupExpress()
+}else{
+  setupElectron()
+}
+
