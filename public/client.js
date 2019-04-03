@@ -67,19 +67,22 @@ function extract_email(s) {
   return matches === null ? '' : matches[0]
 }
 
+
+let startedMonitoring = false
 // This is what runs when the page loads
 $(function() {  
-  // scrap the submit button and just do an onChange() on the token field?
-  // although we don't want to do more setInterval()s without stopping old ones
   $("form.raplet").submit(function(e) { // start monitoring when got auth token
     e.preventDefault() // do we need this?
-    if(mode === "desktop"){
-       setInterval(cbmonitor, 1000)
-    }else{
-      $("#clipboard").on('input', function(event) {
-        console.log("Input changed")
-        processInput($(event.target).val())
-      })
+    if(!startedMonitoring){
+      if(mode === "desktop"){
+        setInterval(cbmonitor, 1000)
+      }else{
+        $("#clipboard").on('input', function(event) {
+          console.log("Input changed")
+          processInput($(event.target).val())
+        })
+      }
+      startedMonitoring = True
     }
   })
 }) 
