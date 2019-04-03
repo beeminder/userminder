@@ -1,4 +1,4 @@
-const {remote} = require('electron')
+const {remote, clipboard} = require('electron')
 const port = remote.getGlobal('port')
 // ---------------------------------- 80chars --------------------------------->
 // Global variable w/ currently extracted email address (email address we see)
@@ -11,10 +11,16 @@ var seen = {}
 // Put the contents of the clipboard in the magic "clipboard" span
 function cbmonitor() {
   var magic_textarea = document.getElementById("clipboard")
-  magic_textarea.value = ''
-  //var current_focus = document.activeElement // to remember what has focus now
-  magic_textarea.focus()
-  if (document.execCommand("paste")) {
+  const clipboardContents = clipboard.readText()
+  magic_textarea.value = clipboardContents
+  seemail = extract_email(clipboardContents)
+  if (seemail) {
+    //document.getElementById("email_box").value = email
+    document.getElementById("email_span").textContent = 
+      seemail // + (seen[seemail] ? ' (already fetched!)' : '')
+  } 
+  
+  /*if (document.execCommand("paste")) {
     seemail = extract_email(magic_textarea.value)
     if (seemail) {
       //document.getElementById("email_box").value = email
@@ -24,7 +30,7 @@ function cbmonitor() {
   } else {
     console.log("ERROR2: Probably the Chrome extension that's supposed to let "
                 + "us monitor the clipboard isn't working?")
-  }
+  }*/
   
   if (seemail !== '' && !seen[seemail]) {
     seen[seemail] = true
