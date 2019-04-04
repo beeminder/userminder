@@ -8,6 +8,7 @@
     "start": "node server.js -web"
   },
   "dependencies": {
+    "electron": "^4.1.3",
     "express": "^4.16.4",
     "npm": "^6.9.0"
   },
