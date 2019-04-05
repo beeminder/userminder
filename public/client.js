@@ -96,7 +96,7 @@ $(function() {
           processInput($(event.target).val())
         })
       }
-      startedMonitoring = True
+      startedMonitoring = true
     }
   })
 }) 
