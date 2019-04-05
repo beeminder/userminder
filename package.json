@@ -1,5 +1,5 @@
 {
-  "name": "Userminder",
+  "name": "userminder",
   "version": "0.0.2",
   "description": "Beeminder admin tool for workerbees",
   "main": "server.js",
