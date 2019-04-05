@@ -16,7 +16,6 @@ const bodyParser = require('body-parser')
 
 let app
 let BrowserWindow
-let clipboard
 let mainWindow
 
 // Boilerplate for an electron app
@@ -26,9 +25,9 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({show: false})
-  mainWindow.maximize();
-  mainWindow.show();
+  mainWindow = new BrowserWindow({show: false,webPreferences: {nodeIntegration: false}})
+  mainWindow.maximize()
+  mainWindow.show()
 
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/public/index.html?mode=desktop`)
@@ -75,7 +74,6 @@ function setupElectron(){
   const electron = require('electron')
   app = electron.app
   BrowserWindow = electron.BrowserWindow
-  clipboard = electron.clipboard 
 
   app.on('ready', () => {
     setupExpress()

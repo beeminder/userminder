@@ -1,18 +1,10 @@
-// Determine mode
-const urlParams = new URLSearchParams(window.location.search);
-const mode = urlParams.get('mode');
-
 // Initialise
 let serverURL
-let clipboard
+
+if(window.mode==="desktop"){
 
 
-if(mode==="desktop"){
-  const electron = require('electron')
-  const shell = electron.shell
-  clipboard = electron.clipboard
-  const port = electron.remote.getGlobal('port')
-  serverURL = `http://localhost:${port}`
+  serverURL = `http://localhost:${window.port}`
 
   $(() => {
     console.log("Client page is ready")
@@ -64,7 +56,7 @@ function processInput(input){
 // Put the contents of the clipboard in the magic "clipboard" span
 function cbmonitor() {
   var magic_textarea = document.getElementById("clipboard")
-  const clipboardContents = clipboard.readText()
+  const clipboardContents = window.readClipboard()
   magic_textarea.value = clipboardContents
   processInput(clipboardContents)
 }
