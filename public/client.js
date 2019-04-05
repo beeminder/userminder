@@ -80,7 +80,7 @@ $(function() {
   $("form.raplet").submit(function(e) { // start monitoring when got auth token
     e.preventDefault() // do we need this?
     if(!startedMonitoring){
-      if(mode === "desktop"){
+      if(window.mode === "desktop"){
         setInterval(cbmonitor, 1000)
       }else{
         $("#clipboard").on('input', function(event) {
