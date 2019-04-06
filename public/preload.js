@@ -5,13 +5,15 @@ const urlParams = new URLSearchParams(window.location.search);
 window.mode = urlParams.get('mode');
 window.port = electron.remote.getGlobal('port')
 
+let clipboard
+
 if(window.mode == "desktop"){
     window.shell = electron.shell
-    window.clipboard = electron.clipboard
+    clipboard = electron.clipboard
 }
 
 window.readClipboard = function(){
-    return window.clipboard.readText()
+    return clipboard.readText()
 }
 
 console.log("Finished preloading")
