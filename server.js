@@ -12,35 +12,16 @@ for (let i = 0; i < process.argv.length; i++) {
 const express = require('express')
 const https = require('https')
 const bodyParser = require('body-parser')
+const path = require('path')
 //var request = require('request')
 
 let app
 let BrowserWindow
 let mainWindow
 
-// Boilerplate for an electron app
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-
-function createWindow () {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({show: false,webPreferences: {nodeIntegration: false}})
-  mainWindow.maximize()
-  mainWindow.show()
-
-  // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/public/index.html?mode=desktop`)
-
-  //mainWindow.webContents.openDevTools()
-
-  mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null
-  })
-}
 
 function setupExpress(expressApp){
   var expressApp = express()
@@ -75,10 +56,37 @@ function setupElectron(){
   app = electron.app
   BrowserWindow = electron.BrowserWindow
 
+  // Boilerplate for an electron app
+  function createWindow() {
+    // Create the browser window.
+
+    mainWindow = new BrowserWindow({
+      show: false,
+      webPreferences: {
+        preload: path.join(__dirname, 'public', 'preload.js'),
+        nodeIntegration: false,
+      }
+    })
+    mainWindow.maximize()
+    mainWindow.show()
+
+    // and load the index.html of the app.
+    mainWindow.loadURL(`file://${__dirname}/public/index.html?mode=desktop`)
+
+    mainWindow.webContents.openDevTools()
+
+    mainWindow.on('closed', function () {
+      // Dereference the window object, usually you would store windows
+      // in an array if your app supports multi windows, this is the time
+      // when you should delete the corresponding element.
+      mainWindow = null
+    })
+    console.log("Created window")
+  }
+
   app.on('ready', () => {
     setupExpress()
     createWindow()
-    console.log("Created window")
   })
 
   app.on('window-all-closed', function () {
