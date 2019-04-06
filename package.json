@@ -1,5 +1,5 @@
 {
-  "name": "userminder",
+  "name": "Userminder",
   "version": "0.0.2",
   "description": "Beeminder admin tool for workerbees",
   "main": "server.js",
@@ -8,6 +8,7 @@
     "start": "node server.js -web"
   },
   "dependencies": {
+    "electron": "^4.1.3",
     "express": "^4.16.4",
     "npm": "^6.9.0"
   },

@@ -13,13 +13,10 @@
 <body>
 
 <section class="dossier">
-<div id="userinfo">Dossiers will appear up here:</div>
+<div id="userinfo">Dossiers appear up here:</div>
 </section>
 
 <h1>Beeminder Support Support</h1>
-
-None of this should work unless you're a Beeminder admin.
-Hover over links for more details.
 
 <h2>1. Authenticate As A Beeminder Admin (each time this page is loaded)</h2>
 
@@ -38,7 +35,9 @@ or something like that.
 <form class="raplet">
 <label>
 Submit 
-<a class="external" href="https://www.beeminder.com/api/v1/auth_token.json" title="Double click the token (just the token, no quotes) and copy/paste it in the field below">your auth token</a>:
+<a class="external" 
+   href="https://www.beeminder.com/api/v1/auth_token.json" 
+   title="Double click the token (just the token, no quotes) and copy/paste it in the field below">your auth token</a>:
 </label>
 <input id="token" type="text" size="25">
 <!--
@@ -53,7 +52,6 @@ Submit
 Pro tip: 
 Triple-click to highlight the whole line containing the email address you want rather than fussing with selecting just the email address.
 
-<label>Current Contents of Clipboard:</label>
 <pre><input id="clipboard" size="100%"></pre>
 
 <h1>
@@ -62,47 +60,6 @@ Triple-click to highlight the whole line containing the email address you want r
 </pre>
 </h1>
 
-<hr>
-
-<br>&nbsp;<br>
-
-<h1>Backstory (no need to read this)</h1>
-
-<p>
-We can query information about our users with URLs like
-<code>https://www.beeminder.com/raplet?users[]=alice@foo.com</code>
-which return JSON like so:
-
-<pre>
-[
-  {
-    username: "not_a_real_user",
-    goals: [ "not_a_real_goal", "example", "foo", "bar" ],
-    email: "support@beeminder.com",
-    subscription: null,
-    is_payer: false,
-    pledged: 0,
-    since: "2011/10",
-    email_given: "alice@foo.com"
-  }
-]
-</pre>
-  
-(It only returns real user info if you're logged in as an admin, but it's the same format as above either way.)
-</p>
-  
-<p>
-Our goal was to have this app monitor the clipboard (copy/paste) buffer of the operating system and whenever it contains an email address, make the above API call and display information about the Beeminder user.
-</p>
-
-<p>
-That way, when we're doing Beeminder support we can keep this app running in another tab or on another screen and by doing control-c on any address, we'll immediately see in that other window all the things Beeminder can tell us about that user.
-Unfortunately we haven't figured out how to make this app run in the background so you have to at least alt-tab to it before it will notice the clipboard contents and do its lookup.
-Not too much better than explicitly pasting in the email addresses but does remove a bit of the friction.
-</p>
-
-
-<hr>
 <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
 <script src="https://code.jquery.com/jquery-2.2.1.min.js"
         integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
