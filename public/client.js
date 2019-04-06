@@ -1,9 +1,9 @@
+console.log("Running client")
 // Initialise
 let serverURL
 
 if(window.mode==="desktop"){
-
-
+  console.log("Client running desktop mode")
   serverURL = `http://localhost:${window.port}`
 
   $(() => {
