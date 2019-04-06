@@ -65,6 +65,7 @@ function setupElectron(){
       webPreferences: {
         preload: path.join(__dirname, 'public', 'preload.js'),
         nodeIntegration: false,
+        contextIsolation: false
       }
     })
     mainWindow.maximize()
