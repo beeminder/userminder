@@ -12,11 +12,9 @@ for (let i = 0; i < process.argv.length; i++) {
 const express = require('express')
 const https = require('https')
 const bodyParser = require('body-parser')
-const path = require('path')
 //var request = require('request')
 
 let app
-let BrowserWindow
 let mainWindow
 
 
@@ -51,10 +49,31 @@ function setupExpress(expressApp){
   console.log("Finished setting up express")
 }
 
+var menuTemplate = [{
+  label: "Application",
+  submenu: [
+      { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
+      { type: "separator" },
+      { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+  ]}, {
+  label: "Edit",
+  submenu: [
+      { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+      { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+      { type: "separator" },
+      { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+      { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+      { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+      { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+  ]}
+]
+
 function setupElectron(){
+  const path = require('path')
   const electron = require('electron')
+  const Menu = electron.Menu
+  const BrowserWindow = electron.BrowserWindow
   app = electron.app
-  BrowserWindow = electron.BrowserWindow
 
   // Boilerplate for an electron app
   function createWindow() {
@@ -82,6 +101,7 @@ function setupElectron(){
       // when you should delete the corresponding element.
       mainWindow = null
     })
+    Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
     console.log("Created window")
   }
 
