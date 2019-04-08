@@ -15,11 +15,33 @@ const bodyParser = require('body-parser')
 //var request = require('request')
 
 let app
+let BrowserWindow
+let clipboard
 let mainWindow
 
+// Boilerplate for an electron app
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
+
+function createWindow () {
+  // Create the browser window.
+  mainWindow = new BrowserWindow({show: false})
+  mainWindow.maximize();
+  mainWindow.show();
+
+  // and load the index.html of the app.
+  mainWindow.loadURL(`file://${__dirname}/public/index.html?mode=desktop`)
+
+  //mainWindow.webContents.openDevTools()
+
+  mainWindow.on('closed', function () {
+    // Dereference the window object, usually you would store windows
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    mainWindow = null
+  })
+}
 
 function setupExpress(expressApp){
   var expressApp = express()
@@ -49,65 +71,16 @@ function setupExpress(expressApp){
   console.log("Finished setting up express")
 }
 
-var menuTemplate = [{
-  label: "Application",
-  submenu: [
-      { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
-      { type: "separator" },
-      { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
-  ]}, {
-  label: "Edit",
-  submenu: [
-      { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
-      { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
-      { type: "separator" },
-      { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
-      { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
-      { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
-      { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
-  ]}
-]
-
 function setupElectron(){
-  const path = require('path')
   const electron = require('electron')
-  const Menu = electron.Menu
-  const BrowserWindow = electron.BrowserWindow
   app = electron.app
-
-  // Boilerplate for an electron app
-  function createWindow() {
-    // Create the browser window.
-
-    mainWindow = new BrowserWindow({
-      show: false,
-      webPreferences: {
-        preload: path.join(__dirname, 'public', 'preload.js'),
-        nodeIntegration: false,
-        contextIsolation: false
-      }
-    })
-    mainWindow.maximize()
-    mainWindow.show()
-
-    // and load the index.html of the app.
-    mainWindow.loadURL(`file://${__dirname}/public/index.html?mode=desktop`)
-
-    mainWindow.webContents.openDevTools()
-
-    mainWindow.on('closed', function () {
-      // Dereference the window object, usually you would store windows
-      // in an array if your app supports multi windows, this is the time
-      // when you should delete the corresponding element.
-      mainWindow = null
-    })
-    Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
-    console.log("Created window")
-  }
+  BrowserWindow = electron.BrowserWindow
+  clipboard = electron.clipboard 
 
   app.on('ready', () => {
     setupExpress()
     createWindow()
+    console.log("Created window")
   })
 
   app.on('window-all-closed', function () {
