@@ -15,12 +15,11 @@ const bodyParser = require('body-parser')
 //var request = require('request')
 
 let app
-let mainWindow
-
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
+let mainWindow
 
+// Boilerplate for an electron app
 function setupExpress(expressApp){
   var expressApp = express()
   expressApp.use(express.static('public'))
@@ -105,9 +104,11 @@ function setupElectron(){
   }
 
   app.on('ready', () => {
+    console.log("App is ready")
     setupExpress()
     Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
     createWindow()
+    console.log("Created window")
   })
 
   app.on('window-all-closed', function () {
