@@ -84,7 +84,7 @@ function setupElectron(){
       webPreferences: {
         preload: path.join(__dirname, 'public', 'preload.js'),
         nodeIntegration: false,
-        contextIsolation: false
+        contextIsolation: true
       }
     })
     mainWindow.maximize()
@@ -93,7 +93,7 @@ function setupElectron(){
     // and load the index.html of the app.
     mainWindow.loadURL(`file://${__dirname}/public/index.html?mode=desktop`)
 
-    mainWindow.webContents.openDevTools()
+    //mainWindow.webContents.openDevTools()
 
     mainWindow.on('closed', function () {
       // Dereference the window object, usually you would store windows
@@ -101,12 +101,12 @@ function setupElectron(){
       // when you should delete the corresponding element.
       mainWindow = null
     })
-    Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
     console.log("Created window")
   }
 
   app.on('ready', () => {
     setupExpress()
+    Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
     createWindow()
   })
 

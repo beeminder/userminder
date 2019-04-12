@@ -2,9 +2,40 @@ console.log("Running client")
 // Initialise
 let serverURL
 
-if(window.mode==="desktop"){
+const urlParams = new URLSearchParams(window.location.search);
+let mode = urlParams.get('mode');
+console.log("mode", mode)
+
+if(mode==="desktop"){
+  serverURL = null;//Signals that it hasn't been set yet (contrast to "" where it has)
   console.log("Client running desktop mode")
-  serverURL = `http://localhost:${window.port}`
+
+  //Setup listeners
+  window.addEventListener("message", (event) => {
+    if (event.source != window) return
+    if (event.data.type && (event.data.type == "READCLIP_ANS")) {
+      console.log("READ CLIPBOARD", event.data.text)
+      readClipboardCallback(event.data.text)
+    }
+    if (event.data.type && (event.data.type == "GETPORT_ANS")) {
+      serverURL = `http://localhost:${event.data.text}`
+    }
+  }, false)
+
+  const readClipboardCallback = content => {
+    var magic_textarea = document.getElementById("clipboard")
+    magic_textarea.value = content
+    if(serverURL!=null){
+      processInput(content)
+    }
+  }
+
+  const getPortMessage = () => {
+    window.postMessage({ type: "GETPORT_REQ" }, "*")
+  }
+
+  //Get port and set the server URL
+  getPortMessage()
 
   $(() => {
     console.log("Client page is ready")
@@ -14,9 +45,8 @@ if(window.mode==="desktop"){
     external.click(function(event){
       let link = $(event.target).data("link")
       console.log(`Open external: ${link}`)
-      shell.openExternal(link)
+      window.postMessage({type: "OPENLINK_REQ", "link": link}, "*")
     })
-    
   })
 } else{
   serverURL = ''  
@@ -53,14 +83,6 @@ function processInput(input){
   }
 }
 
-// Put the contents of the clipboard in the magic "clipboard" span
-function cbmonitor() {
-  var magic_textarea = document.getElementById("clipboard")
-  const clipboardContents = window.readClipboard()
-  magic_textarea.value = clipboardContents
-  processInput(clipboardContents)
-}
-
 // Take a string and return the first email address you find in it
 function extract_email(s) {
   if (typeof(s) !== "string") { // pretty sure this check is superfluous now
@@ -76,12 +98,17 @@ function extract_email(s) {
 
 let startedMonitoring = false
 // This is what runs when the page loads
-$(function() {  
+$(function() {
   $("form.raplet").submit(function(e) { // start monitoring when got auth token
+    console.log("Submit clicked")
     e.preventDefault() // do we need this?
     if(!startedMonitoring){
-      if(window.mode === "desktop"){
-        setInterval(cbmonitor, 1000)
+      console.log("Starting monitoring")
+      if(mode === "desktop"){
+        console.log("Setting up interval timer")
+        setInterval(() => {
+          window.postMessage({ type: "READCLIP_REQ" }, "*")
+        }, 1000)
       }else{
         $("#clipboard").on('input', function(event) {
           console.log("Input changed")
@@ -91,7 +118,7 @@ $(function() {
       startedMonitoring = true
     }
   })
-}) 
+})
 
 function formatDossier(doss) {
   var div = $("<div></div>") // would it be safer/clearer to find this by id?
