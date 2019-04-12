@@ -33,6 +33,12 @@ Unfortunately we haven't figured out how to make this app run in the background 
 Not too much better than explicitly pasting in the email addresses but does remove a bit of the friction.
 </p>
 
+## Testing the Electron version
+
+```
+npm run-script startDesktop
+```
+
 # Changelog
 
 <pre>
