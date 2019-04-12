@@ -37,16 +37,43 @@ if(mode==="desktop"){
   //Get port and set the server URL
   getPortMessage()
 
-  $(() => {
-    console.log("Client page is ready")
-    let external = $(".external")
-    external.data("link", external.prop("href"))
-    external.prop("href", "#");
-    external.click(function(event){
+  function fixLink(jqObj){
+    jqObj.data("link", jqObj.prop("href"))
+    jqObj.prop("href", "#");
+    jqObj.click(function(event){
       let link = $(event.target).data("link")
       console.log(`Open external: ${link}`)
       window.postMessage({type: "OPENLINK_REQ", "link": link}, "*")
+      return false
     })
+  }
+
+  $(() => {
+    console.log("Client page is ready")
+    fixLink($(".external"))
+    
+    //Update when an element is inserted into the document
+    function mutationCallback(records) {
+      console.log("Mutation")
+      records.forEach(function (record) {
+        var list = record.addedNodes;
+        var i = list.length - 1;
+        
+      for ( ; i > -1; i-- ) {
+        console.log(list[i].nodeName)
+        if (list[i].nodeName === 'DIV') {
+          // Insert code here...
+          console.log("Fixing")
+          fixLink($(list[i]).find("a"))
+        }
+      }
+      });
+    }
+    
+    var observer = new MutationObserver(mutationCallback)
+    observer.observe(document.body, {childList: true, subtree: true });
+    console.log("Setup mutation observer")
+
   })
 } else{
   serverURL = ''  
