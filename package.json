@@ -8,6 +8,7 @@
     "start": "node server.js -web"
   },
   "dependencies": {
+    "electron-packager": "^13.1.1",
     "express": "^4.16.4"
   },
   "devDependencies": {
@@ -15,7 +16,7 @@
     "npm": "^6.9.0"
   },
   "engines": {
-    "node": "8.x"
+    "node": "10"
   },
   "repository": {
     "url": "https://glitch.com/edit/#!/userminder"

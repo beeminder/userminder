@@ -39,6 +39,16 @@ Not too much better than explicitly pasting in the email addresses but does remo
 npm run-script startDesktop
 ```
 
+## Packaging the Electron version
+
+Here are some of the things one of us had to do on macOS to make `build.sh` and `upload.sh` work:
+
+```
+sudo npm install -g electron-packager
+brew install wine
+brew install hub
+```
+
 # Changelog
 
 <pre>
