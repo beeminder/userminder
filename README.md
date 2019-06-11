@@ -41,13 +41,7 @@ npm run-script startDesktop
 
 ## Packaging the Electron version
 
-Here are some of the things one of us had to do on macOS to make `build.sh` and `upload.sh` work:
-
-```
-sudo npm install -g electron-packager
-brew install wine
-brew install hub
-```
+Run `./setup.sh` to install dependencies. Then you can run `./build.sh` to build and `upload.sh` to upload.
 
 The version is stored in a file called "version". You need to edit the version number each time you want to upload otherwise you'll see an error: Duplicate value for "tag_name"
 
