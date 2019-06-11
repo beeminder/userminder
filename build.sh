@@ -1,6 +1,6 @@
 #!/bin/sh
 echo Starting build
-npm electron-packager --out releases --platform=darwin,linux,win32 --overwrite . UserMinder
+npx electron-packager --out releases --platform=darwin,linux,win32 --overwrite . UserMinder
 
 #Zip files
 echo "Now completing releases"
