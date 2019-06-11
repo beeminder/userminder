@@ -11,6 +11,7 @@
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "electron-packager": "^13.1.1",
     "electron": "^4.2.4",
     "npm": "^6.9.0"
   },
