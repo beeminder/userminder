@@ -9,4 +9,10 @@ cd ..
 
 #Upload
 version=`cat version`
-hub release create $add_command $version
+found=`hub release | grep "^$version$"`
+if [ -z "$found" ]; then
+	hub release create $add_command $version
+else
+	echo "Release already created. Please edit ./version"
+fi
+
