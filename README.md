@@ -49,6 +49,8 @@ brew install wine
 brew install hub
 ```
 
+The version is stored in a file called "version". You need to edit the version number each time you want to upload otherwise you'll see an error: Duplicate value for "tag_name"
+
 # Changelog
 
 <pre>
