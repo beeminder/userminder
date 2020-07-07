@@ -13,7 +13,7 @@
   "devDependencies": {
     "electron-packager": "^13.1.1",
     "electron": "^4.2.4",
-    "npm": "^6.9.0"
+    "npm": "^6.14.6"
   },
   "engines": {
     "node": "10"
