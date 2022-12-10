@@ -8,7 +8,7 @@
     "start": "node server.js -web"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.3"
   },
   "devDependencies": {
     "electron-packager": "^13.1.1",
