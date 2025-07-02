@@ -8,12 +8,8 @@
     "start": "node server.js -web"
   },
   "dependencies": {
-    "express": "^5.1.0",
-    "body-parser": "^2.2.0"
-  },
-  "devDependencies": {
-    "electron": "^4.1.4",
-    "npm": "^6.9.0"
+    "body-parser": "^2.2.0",
+    "express": "^5.1.0"
   },
   "engines": {
     "node": ">=18"
