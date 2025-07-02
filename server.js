@@ -1,93 +1,71 @@
-//Detect Mode - currently only web and desktop mode, so can use some shortcuts
-let webMode = false
-for (let i = 0; i < process.argv.length; i++) {
-  const argVal = process.argv[i] 
-  if(i>=2 && argVal === "-web"){
-    console.log("Running in web mode")
-    webMode = true
-  }
+/* -------- detect CLI flag ------------------------------------------------- */
+let webMode = process.argv.includes('-web');
+if (webMode) console.log('Running in web mode');
+
+/* -------- core deps ------------------------------------------------------- */
+const express = require('express');
+const https   = require('https');
+
+/* -------- express bootstrap ---------------------------------------------- */
+function setupExpress() {
+  const app = express();
+
+  app.use(express.static('public'));   // serve /public
+  app.set('trust proxy', 1);
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: false }));
+
+  // simple Beeminder proxy
+  app.get('/dossier', (req, res) => {
+    getDossier(
+      req.query.email,
+      req.query.token,
+      data  => res.json(data),
+      error => {
+        console.error('GET /dossier error:', error);
+        res.status(500).send('error');
+      }
+    );
+  });
+
+  const listener = app.listen(process.env.PORT || 3000, () => {
+    const { port } = listener.address();
+    console.log(`Userminder web server listening on port ${port}`);
+    global.port = port;   // (legacy code still reads this)
+  });
 }
 
-// ---------------------------------- 80chars --------------------------------->
-const express = require('express')
-const https = require('https')
-const bodyParser = require('body-parser')
-//var request = require('request')
+/* -------- optional Electron wrapper -------------------------------------- */
+function setupElectron(electron) {
+  const { app, BrowserWindow, Menu } = electron;
+  const path = require('path');
 
-// server.js
-let app;
-try {
-  ({ app } = require('electron'));   // will throw or give undefined under node
-} catch { /* Electron not installed */ }
-if (app && app.on) {
-  app.on('ready', setupElectron);
-} else {
-  console.log('Electron unavailable – skipping desktop init');
-}
+  const menuTemplate = [
+    {
+      label: 'Application',
+      submenu: [
+        { label: 'About', selector: 'orderFrontStandardAboutPanel:' },
+        { type: 'separator' },
+        { label: 'Quit', accelerator: 'CmdOrCtrl+Q', click: () => app.quit() }
+      ]
+    },
+    {
+      label: 'Edit',
+      submenu: [
+        { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
+        { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
+        { type: 'separator' },
+        { label: 'Cut',   accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
+        { label: 'Copy',  accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+        { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
+        { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' }
+      ]
+    }
+  ];
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+  let mainWindow = null;
 
-// Boilerplate for an electron app
-function setupExpress(expressApp){
-  var expressApp = express()
-  expressApp.use(express.static('public'))
-  expressApp.set('trust proxy', 1)
-  expressApp.use(bodyParser.json())
-
-  //expressApp.get("/", function (request, response) {
-  //  response.sendFile(__dirname + '/views/index.html')
-  //})
-
-  expressApp.get(`/dossier`, function(req, resp) {
-    //console.log("GET /dossier")
-    //console.log(req.query)
-    getDossier(req.query.email, req.query.token,
-      (userp) => { resp.send(JSON.stringify(userp)) }, 
-      (error) => { console.log("error in GET /dossier:", error) }
-    )
-  })
-
-  var listener = expressApp.listen(process.env.PORT, function() {
-    const port = listener.address().port
-    console.log(`The Userminder app is running on port ${port}`)
-    global['port'] = port
-  })
-
-  console.log("Finished setting up express")
-}
-
-var menuTemplate = [{
-  label: "Application",
-  submenu: [
-      { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
-      { type: "separator" },
-      { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
-  ]}, {
-  label: "Edit",
-  submenu: [
-      { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
-      { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
-      { type: "separator" },
-      { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
-      { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
-      { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
-      { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
-  ]}
-]
-
-function setupElectron(){
-  const path = require('path')
-  const electron = require('electron')
-  const Menu = electron.Menu
-  const BrowserWindow = electron.BrowserWindow
-  app = electron.app
-
-  // Boilerplate for an electron app
   function createWindow() {
-    // Create the browser window.
-
     mainWindow = new BrowserWindow({
       show: false,
       webPreferences: {
@@ -95,76 +73,57 @@ function setupElectron(){
         nodeIntegration: false,
         contextIsolation: true
       }
-    })
-    mainWindow.maximize()
-    mainWindow.show()
-
-    // and load the index.html of the app.
-    mainWindow.loadURL(`file://${__dirname}/public/index.html?mode=desktop`)
-
-    //mainWindow.webContents.openDevTools()
-
-    mainWindow.on('closed', function () {
-      // Dereference the window object, usually you would store windows
-      // in an array if your app supports multi windows, this is the time
-      // when you should delete the corresponding element.
-      mainWindow = null
-    })
-    console.log("Created window")
+    });
+    mainWindow.maximize();
+    mainWindow.show();
+    mainWindow.loadURL(`file://${__dirname}/public/index.html?mode=desktop`);
+    mainWindow.on('closed', () => (mainWindow = null));
   }
 
   app.on('ready', () => {
-    console.log("App is ready")
-    setupExpress()
+    console.log('Electron ready — launching desktop window');
     Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
-    createWindow()
-    console.log("Created window")
-  })
+    createWindow();
+  });
 
-  app.on('window-all-closed', function () {
-    // On OS X it is common for applications and their menu bar
-    // to stay active until the user quits explicitly with Cmd + Q
-    if (process.platform !== 'darwin') {
-      app.quit()
-    }
-  })
+  app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') app.quit();
+  });
 
-  app.on('activate', function () {
-    // On OS X it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (mainWindow === null) {
-      createWindow()
-    }
-  })
+  app.on('activate', () => {
+    if (mainWindow === null) createWindow();
+  });
 }
 
-function getDossier(email, token, success, error) {
-  var options = {
+/* -------- helper: call Beeminder API ------------------------------------- */
+function getDossier(email, token, ok, err) {
+  const opts = {
     host: 'www.beeminder.com',
     port: 443,
-    path: '/api/private/raplet.json?users[]='+encodeURIComponent(email)
-                                  +"&auth_token="+token,
-    method: 'GET',
-  }
-  var req = https.request(options, function(resp) {
-    var data = ''
-    resp.on('data', (chunk) => {
-      data += chunk
-    }).on('end', () => {
-      success(JSON.parse(data))
+    path: `/api/private/raplet.json?users[]=${encodeURIComponent(email)}&auth_token=${token}`,
+    method: 'GET'
+  };
+  https
+    .request(opts, resp => {
+      let data = '';
+      resp.on('data', chunk => (data += chunk));
+      resp.on('end', () => ok(JSON.parse(data)));
     })
-  })
-  req.on('error', (e) => {
-    console.log('problem with request:', e.message)
-    error(e.message)
-  })
-  req.write('')
-  req.end()
+    .on('error', e => err(e.message))
+    .end();
 }
 
-if(webMode){
-  setupExpress()
-}else{
-  setupElectron()
-}
+/* -------- main ----------------------------------------------------------- */
+setupExpress();                       // always run the web server
 
+if (!webMode) {
+  let electron;
+  try      { electron = require('electron'); }
+  catch    { /* not installed — fine */ }
+
+  if (electron) {
+    setupElectron(electron);
+  } else {
+    console.log('Electron not found — desktop wrapper skipped');
+  }
+}
