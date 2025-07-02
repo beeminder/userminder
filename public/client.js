@@ -9,7 +9,38 @@ console.log("mode", mode)
 if(mode==="desktop"){
   serverURL = null;//Signals that it hasn't been set yet (contrast to "" where it has)
   console.log("Client running desktop mode")
+// BEGIN GLITCH
 
+  //Setup listeners
+  window.addEventListener("message", (event) => {
+    if (event.source != window) return
+    if (event.data.type && (event.data.type == "READCLIP_ANS")) {
+      console.log("READ CLIPBOARD", event.data.text)
+      readClipboardCallback(event.data.text)
+    }
+    if (event.data.type && (event.data.type == "GETPORT_ANS")) {
+      serverURL = `http://localhost:${event.data.text}`
+    }
+  }, false)
+
+  const readClipboardCallback = content => {
+    var magic_textarea = document.getElementById("clipboard")
+    magic_textarea.value = content
+    if(serverURL!=null){
+      processInput(content)
+    }
+  }
+
+  const getPortMessage = () => {
+    window.postMessage({ type: "GETPORT_REQ" }, "*")
+  }
+
+  //Get port and set the server URL
+  getPortMessage()
+// END GLITCH
+// BEGIN MASTER
+// END MASTER
+  
   //Setup listeners
   window.addEventListener("message", (event) => {
     if (event.source != window) return
@@ -44,6 +75,10 @@ if(mode==="desktop"){
       let link = $(event.target).data("link")
       console.log(`Open external: ${link}`)
       window.postMessage({type: "OPENLINK_REQ", "link": link}, "*")
+// BEGIN GLITCH
+   })
+// END GLITCH
+/* BEGIN MASTER
       return false
     })
   }
@@ -73,6 +108,8 @@ if(mode==="desktop"){
     var observer = new MutationObserver(mutationCallback)
     observer.observe(document.body, {childList: true, subtree: true });
     console.log("Setup mutation observer")
+
+END MASTER */
 
   })
 } else{
