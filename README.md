@@ -39,6 +39,12 @@ Not too much better than explicitly pasting in the email addresses but does remo
 npm run-script startDesktop
 ```
 
+## Packaging the Electron version
+
+Run `./setup.sh` to install dependencies. This requires Homebrew to have already been installed. Then you can run `./build.sh` to build and `upload.sh` to upload.
+
+The version is stored in a file called "version". You need to edit the version number each time you want to upload otherwise you'll see an error: Duplicate value for "tag_name"
+
 # Changelog
 
 <pre>
