@@ -14,7 +14,17 @@ const https = require('https')
 const bodyParser = require('body-parser')
 //var request = require('request')
 
-let app
+// server.js
+let app;
+try {
+  ({ app } = require('electron'));   // will throw or give undefined under node
+} catch { /* Electron not installed */ }
+if (app && app.on) {
+  app.on('ready', setupElectron);
+} else {
+  console.log('Electron unavailable – skipping desktop init');
+}
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
