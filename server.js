@@ -23,7 +23,7 @@ function setupExpress() {
       data  => res.json(data),
       error => {
         console.error('GET /dossier error:', error);
-        res.status(500).send('error');
+        res.status(401).json({ error: 'Authentication failed', message: 'Invalid auth token or API request failed' });
       }
     );
   });
@@ -107,7 +107,13 @@ function getDossier(email, token, ok, err) {
     .request(opts, resp => {
       let data = '';
       resp.on('data', chunk => (data += chunk));
-      resp.on('end', () => ok(JSON.parse(data)));
+      resp.on('end', () => {
+        try {
+          ok(JSON.parse(data));
+        } catch (e) {
+          err('Invalid JSON response from Beeminder API');
+        }
+      });
     })
     .on('error', e => err(e.message))
     .end();

@@ -49,7 +49,7 @@ if (mode==="desktop") {
     })
   })
 } else{
-  serverURL = ''  
+  serverURL = ''
 }
 // ---------------------------------- 80chars --------------------------------->
 // Global variable w/ currently extracted email address (email address we see)
@@ -77,9 +77,24 @@ function processInput(input){
         token: document.getElementById('token').value
       },
       function(data) {
-        console.log(`Received data ${data}`)
+        console.log(`Received data ${JSON.stringify(data)}`)
         $("#userinfo").append(formatDossier(data[0]))
       })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+      console.error('API request failed:', textStatus, errorThrown)
+      const errorDiv = $('<div class="error-message"></div>')
+      errorDiv.html(
+        '<h2>❌ Auth Error</h2><p>Invalid auth token or API call failed.</p>')
+      
+      // Add close button to error message
+      const closeBtn = 
+                 $('<button class="close-btn" title="Dismiss">&times;</button>')
+      closeBtn.click(function() {
+        errorDiv.fadeOut(300, function() { errorDiv.remove() })
+      })
+      errorDiv.append(closeBtn)
+      $("#userinfo").append(errorDiv)
+    })
   }
 }
 
@@ -132,6 +147,13 @@ function formatDossier(doss) {
     })
   })
   div.append(closeBtn)
+  
+  // Safety check for malformed data
+  if (!doss || typeof doss !== 'object') {
+    div.addClass('error-message')
+    div.append('<h2>❌ Error!</h2><p>Probably your auth token is bad?</p>')
+    return div
+  }
   
   if (doss.username === undefined) {
     div.append("<h2>"+doss.email_given+" &rarr; NOT A BEEMINDER USER</h2>")
