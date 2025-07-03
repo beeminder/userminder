@@ -6,8 +6,8 @@ const urlParams = new URLSearchParams(window.location.search);
 let mode = urlParams.get('mode');
 console.log("mode", mode)
 
-if(mode==="desktop"){
-  serverURL = null;//Signals that it hasn't been set yet (contrast to "" where it has)
+if (mode==="desktop") {
+  serverURL = null; //Signals that it hasn't been set yet (contrast to "" where it has)
   console.log("Client running desktop mode")
 
   //Setup listeners
@@ -89,9 +89,10 @@ function extract_email(s) {
     console.log(`ERROR3: extract_email("${s}")`)
     return ''
   }
-  var erx = // eg a@b.c or a+b@c-d.e or even +-@x.co or _@.a or +@-b
-    /[\w\-\.\_\+]+\@[\w\-\.\_]+[a-zA-Z]/
-  var matches = s.match(erx)
+  const erx = // eg a@b.c or a+b@c-d.e or even +-@x.co or _@.a or +@-b
+    // /[\w\-\.\_\+]+\@[\w\-\.\_]+[a-zA-Z]/
+    /[\w\-\.\_\+]+\@[a-zA-Z][\w\-\.\_]*\.[\w\-\.\_]*[a-zA-Z]/
+  const matches = s.match(erx)
   return matches === null ? '' : matches[0]
 }
 
