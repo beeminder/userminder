@@ -1,7 +1,7 @@
 {
   "name": "Userminder",
-  "version": "0.0.2",
-  "description": "Beeminder admin tool for workerbees",
+  "version": "2025.07.03-a",
+  "description": "Beeminder admin tool for support workerbees",
   "main": "server.js",
   "scripts": {
     "startDesktop": "electron server.js -desktop",
@@ -12,16 +12,14 @@
     "express": "^5.1.0"
   },
   "engines": {
-    "node": ">=18"
+    "node": "22"
   },
   "repository": {
-    "url": "https://glitch.com/edit/#!/userminder"
+    "url": "https://github.com/beeminder/userminder"
   },
-  "license": "MIT",
   "keywords": [
     "node",
-    "glitch",
-    "express",
-    "beeminder"
+    "beeminder",
+    "raplet"
   ]
 }

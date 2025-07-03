@@ -6,7 +6,7 @@ if (webMode) console.log('Running in web mode');
 const express = require('express');
 const https   = require('https');
 
-/* -------- express bootstrap ---------------------------------------------- */
+/* --------- express bootstrap ---------------------------------------------- */
 function setupExpress() {
   const app = express();
 
@@ -35,7 +35,7 @@ function setupExpress() {
   });
 }
 
-/* -------- optional Electron wrapper -------------------------------------- */
+/* --------- optional Electron wrapper -------------------------------------- */
 function setupElectron(electron) {
   const { app, BrowserWindow, Menu } = electron;
   const path = require('path');
@@ -95,7 +95,7 @@ function setupElectron(electron) {
   });
 }
 
-/* -------- helper: call Beeminder API ------------------------------------- */
+/* --------- helper: call Beeminder API ------------------------------------- */
 function getDossier(email, token, ok, err) {
   const opts = {
     host: 'www.beeminder.com',
@@ -113,7 +113,7 @@ function getDossier(email, token, ok, err) {
     .end();
 }
 
-/* -------- main ----------------------------------------------------------- */
+/* --------- main ----------------------------------------------------------- */
 setupExpress();                       // always run the web server
 
 if (!webMode) {
