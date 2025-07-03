@@ -169,10 +169,24 @@ function formatDossier(doss) {
       `   title="${hover}">${doss.username}</a>` + 
       (seemail === doss.email ? '' : ` &rarr; ${doss.email}`) + '</h2>' +
       `<span>${doss.subscription}</span> ` +
-      `<span>$${doss.pledged}</span> ` +
+      `<span>$${doss.pledged}</span> ` +  // note intentional double dollar sign
       `<span>since ${doss.since}</span>`
     )
   }
+  
+  // Add collapsible raw JSON section (inline)
+  var jsonToggle = $('<span class="json-toggle">[raw json]</span>')
+  var jsonContent = $('<pre class="raw-json-content hidden"></pre>')
+  jsonContent.text(JSON.stringify(doss, null, 2))
+  
+  jsonToggle.click(function() {
+    jsonContent.toggleClass('hidden')
+    jsonToggle.text(jsonContent.hasClass('hidden') ? '[raw json]' : '[hide json]')
+  })
+  
+  div.append(jsonToggle)
+  div.append(jsonContent)
+  
   return div
 }
 

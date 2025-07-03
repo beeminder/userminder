@@ -44,6 +44,39 @@
 .error-message p {
   margin-bottom: 0;
 }
+
+.json-toggle {
+  color: #666;
+  font-size: 11px;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-left: 10px;
+  user-select: none;
+}
+
+.json-toggle:hover {
+  color: #333;
+}
+
+.raw-json-content {
+  margin: 8px 0 0 0;
+  padding: 8px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  line-height: 1.3;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.raw-json-content.hidden {
+  display: none;
+}
 .vip { /* user has a premium plan */
   background-color: palegreen; 
 }
