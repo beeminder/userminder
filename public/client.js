@@ -123,6 +123,16 @@ $(function() {
 
 function formatDossier(doss) {
   var div = $("<div></div>") // would it be safer/clearer to find this by id?
+  
+  // Add close button (Codebuff's code here)
+  var closeBtn = $('<button class="close-btn" title="Dismiss this dossier">&times;</button>')
+  closeBtn.click(function() {
+    div.fadeOut(300, function() {
+      div.remove()
+    })
+  })
+  div.append(closeBtn)
+  
   if (doss.username === undefined) {
     div.append("<h2>"+doss.email_given+" &rarr; NOT A BEEMINDER USER</h2>")
   } else {
@@ -133,7 +143,7 @@ function formatDossier(doss) {
     div.append(
       `<h2>${seemail} &rarr; ` + 
       `<a href="https://www.beeminder.com/${doss.username}"` + 
-      `   target="_blank"` +
+      `   target="_blank"` + 
       `   title="${hover}">${doss.username}</a>` + 
       (seemail === doss.email ? '' : ` &rarr; ${doss.email}`) + '</h2>' +
       `<span>${doss.subscription}</span> ` +
