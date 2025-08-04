@@ -94,7 +94,11 @@ function processInput(input){
         const closeBtn = 
                    $('<button class="close-btn" title="Dismiss">&times;</button>')
         closeBtn.click(function() {
-          errorDiv.fadeOut(300, function() { errorDiv.remove() })
+          errorDiv.fadeOut(300, function() { 
+            errorDiv.remove()
+            // Remove from seen so email can be processed again
+            delete seen[email]
+          })
         })
         errorDiv.append(closeBtn)
         $("#userinfo").append(errorDiv)
@@ -158,6 +162,8 @@ function formatDossier(doss, email) {
   closeBtn.click(function() {
     div.fadeOut(300, function() {
       div.remove()
+      // Remove from seen so email can be processed again
+      delete seen[email]
     })
   })
   div.append(closeBtn)
