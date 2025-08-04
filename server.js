@@ -28,12 +28,18 @@ function setupExpress() {
     );
   });
 
-  const listener = app.listen(process.env.PORT || 3000, () => {
-    const { port } = listener.address();
+  const port_to_try = process.env.PORT || 3001;
+  const listener = app.listen(port_to_try, () => {
+    const address = listener.address();
+    if (!address) {
+      console.error(`Error: Failed to bind to port ${port_to_try}`);
+      process.exit(1);
+    }
+    const { port } = address;
     console.log(`Userminder web server listening on port ${port}`);
     global.port = port;   // (legacy code still reads this)
-  });
-}
+  }); 
+ }
 
 /* --------- optional Electron wrapper -------------------------------------- */
 function setupElectron(electron) {
