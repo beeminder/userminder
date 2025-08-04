@@ -60,55 +60,69 @@ var seemail = ''
 var seen = {}
 
 function processInput(input){
-  seemail = extract_email(input)
-  if (seemail) {
-    console.log(`Found email ${seemail}`)
-    //document.getElementById("email_box").value = email
-    document.getElementById("email_span").textContent = 
-      seemail // + (seen[seemail] ? ' (already fetched!)' : '')
-  } 
+  const emails = extract_emails(input)
   
-  if (seemail !== '' && !seen[seemail]) {
-    console.log("Email is new")
-    seen[seemail] = true
-    $.getJSON(
-      `${serverURL}/dossier`, {
-        email: seemail,
-        token: document.getElementById('token').value
-      },
-      function(data) {
-        console.log(`Received data ${JSON.stringify(data)}`)
-        $("#userinfo").append(formatDossier(data[0]))
-      })
-    .fail(function(jqXHR, textStatus, errorThrown) {
-      console.error('API request failed:', textStatus, errorThrown)
-      const errorDiv = $('<div class="error-message"></div>')
-      errorDiv.html(
-        '<h2>❌ Auth Error</h2><p>Invalid auth token or API call failed.</p>')
-      
-      // Add close button to error message
-      const closeBtn = 
-                 $('<button class="close-btn" title="Dismiss">&times;</button>')
-      closeBtn.click(function() {
-        errorDiv.fadeOut(300, function() { errorDiv.remove() })
-      })
-      errorDiv.append(closeBtn)
-      $("#userinfo").append(errorDiv)
-    })
+  if (emails.length > 0) {
+    console.log(`Found ${emails.length} email(s): ${emails.join(', ')}`)
+    document.getElementById("email_span").textContent = 
+      emails.length === 1 ? emails[0] : `${emails.length} emails: ${emails.join(', ')}`
+  } else {
+    document.getElementById("email_span").textContent = "(no email address found yet)"
   }
+  
+  // Process each new email
+  emails.forEach(email => {
+    if (!seen[email]) {
+      console.log(`Processing new email: ${email}`)
+      seen[email] = true
+      $.getJSON(
+        `${serverURL}/dossier`, {
+          email: email,
+          token: document.getElementById('token').value
+        },
+        function(data) {
+          console.log(`Received data for ${email}: ${JSON.stringify(data)}`)
+          $("#userinfo").append(formatDossier(data[0], email))
+        })
+      .fail(function(jqXHR, textStatus, errorThrown) {
+        console.error(`API request failed for ${email}:`, textStatus, errorThrown)
+        const errorDiv = $('<div class="error-message"></div>')
+        errorDiv.html(
+          `<h2>❌ Auth Error for ${email}</h2><p>Invalid auth token or API call failed.</p>`)
+        
+        // Add close button to error message
+        const closeBtn = 
+                   $('<button class="close-btn" title="Dismiss">&times;</button>')
+        closeBtn.click(function() {
+          errorDiv.fadeOut(300, function() { errorDiv.remove() })
+        })
+        errorDiv.append(closeBtn)
+        $("#userinfo").append(errorDiv)
+      })
+    }
+  })
+  
+  // Update global seemail for backward compatibility
+  seemail = emails.length > 0 ? emails[0] : ''
 }
 
-// Take a string and return the first email address you find in it
-function extract_email(s) {
-  if (typeof(s) !== "string") { // pretty sure this check is superfluous now
-    console.log(`ERROR3: extract_email("${s}")`)
-    return ''
+// Take a string and return all email addresses found in it
+function extract_emails(s) {
+  if (typeof(s) !== "string") {
+    console.log(`ERROR3: extract_emails("${s}")`)
+    return []
   }
   const erx = // eg a@b.c or a+b@c-d.e or even +-@x.co or _@.a or +@-b
     // /[\w\-\.\_\+]+\@[\w\-\.\_]+[a-zA-Z]/
-    /[\w\-\.\_\+]+\@[a-zA-Z][\w\-\.\_]*\.[\w\-\.\_]*[a-zA-Z]/
+    /[\w\-\.\_\+]+\@[a-zA-Z][\w\-\.\_]*\.[\w\-\.\_]*[a-zA-Z]/g
   const matches = s.match(erx)
-  return matches === null ? '' : matches[0]
+  return matches === null ? [] : matches
+}
+
+// Legacy function for backward compatibility
+function extract_email(s) {
+  const emails = extract_emails(s)
+  return emails.length > 0 ? emails[0] : ''
 }
 
 
@@ -136,7 +150,7 @@ $(function() {
   })
 })
 
-function formatDossier(doss) {
+function formatDossier(doss, email) {
   var div = $("<div></div>") // would it be safer/clearer to find this by id?
   
   // Add close button (Codebuff's code here)
@@ -163,11 +177,11 @@ function formatDossier(doss) {
     var bkg = doss.subscription ? "vip" : doss.is_payer ? "prio2" : "prio3"
     div.addClass(bkg)
     div.append(
-      `<h2>${seemail} &rarr; ` + 
+      `<h2>${email} &rarr; ` + 
       `<a href="https://www.beeminder.com/${doss.username}"` + 
       `   target="_blank"` + 
       `   title="${hover}">${doss.username}</a>` + 
-      (seemail === doss.email ? '' : ` &rarr; ${doss.email}`) + '</h2>' +
+      (email === doss.email ? '' : ` &rarr; ${doss.email}`) + '</h2>' +
       `<span>${doss.subscription}</span> ` +
       `<span>$${doss.pledged}</span> ` +  // note intentional double dollar sign
       `<span>since ${doss.since}</span>`
