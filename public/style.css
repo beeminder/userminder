@@ -1,3 +1,8 @@
+#clipboard {
+  width: 100%;
+  box-sizing: border-box; /* keeps padding/border from shrinking the usable area */
+}
+
 #userinfo div {
   padding: 1em;
   position: relative;

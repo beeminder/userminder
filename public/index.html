@@ -1,16 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Beeminder Support Support</title>
-<meta name="description" content="Tool for Beeminder ">
-<link id="favicon" rel="icon" 
-      href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- -------------------- HTML Boilerplate Instructions -------------------- -->
+<!-- 1. Note unDRY title, description, URL, and imgURL -->
+<!-- 2. Use realfavicongenerator.net to generate the ICONS section -->
+<!-- 3. Replace style.css and client.js filenames as needed -->
+<!-- 4. It's fine to throw out lines containing "$OPT" -->
+<!-- 5. Site name displays as additional line in link preview above title -->
+<title>Beeminder Support Support</title>
+<meta name="description"        content="Stand-alone version of the raplet">
+<meta property="og:description" content="Stand-alone version of the raplet">
+<meta property="og:title" content="Beeminder Support Support">
+<meta property="og:site_name" content="Beeminder Internal Tools">
+<meta property="og:type" content="website">
+<link rel="canonical"       href="https://userminder.onrender.com/">
+<meta property="og:url"  content="https://userminder.onrender.com/">
+<meta property="og:image" content="https://userminder.onrender.com/favicon/userminder.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@bmndr">
+<meta name="twitter:creator" content="@dreev">
+<!-- BEGIN ICONS -->
+<link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+<link rel="shortcut icon" href="/favicon/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="Userminder" />
+<link rel="manifest" href="/favicon/site.webmanifest" />
+<!-- END ICONS -->
+<script type="application/ld+json"> {
+"@context": "https://schema.org",
+"@type": "WebSite",
+"name": "Beeminder Support Support",
+"alternateName": ["Userminder"],
+"url": "https://userminder.onrender.com/",
+"image": "https://userminder.onrender.com/favicon/userminder.png" }
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="./style.css">
 </head>
-
 <body>
 
 <section class="dossier">
@@ -24,7 +52,7 @@
 <!--
 Trying to put your auth token in an iframe doesn't seem to work...
 Maybe the auth_token.json page needs to include a header like
-  X-Frame-Options: ALLOW-FROM https://userminder.glitch.me/
+  X-Frame-Options: ALLOW-FROM https://userminder.onrender.com
 though if that were the issue I'd expect an error in the console like
   Refused to display beeminder.com/... in a frame because it set 
     'X-Frame-Options' to 'SAMEORIGIN'.
@@ -58,8 +86,9 @@ Submit
 </ul>
 </p>
 </details>
+<br>
+<textarea id="clipboard" rows="4" autofocus></textarea>
 
-<pre><input id="clipboard" size="100%"></pre>
 
 <h1>
 <pre>

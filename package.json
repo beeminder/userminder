@@ -1,6 +1,6 @@
 {
   "name": "Userminder",
-  "version": "2025.08.03-a",
+  "version": "2025.08.03-c",
   "description": "Beeminder admin tool for support workerbees",
   "main": "server.js",
   "scripts": {
